@@ -16,4 +16,8 @@ def publish(directory,config,snapshots,journal):
         "onchain":{"chainId":h.rpc.chain_id,"block":h.tag,"blockHash":h.block["hash"],"registry":reg,"runId":"0x"+h.get(reg,"runId()",["bytes32"]).hex(),"lastRound":h.get(reg,"lastRound()",["uint64"]),
                    "recordRoot":"0x"+h.get(reg,"recordRoot()",["bytes32"]).hex(),"stateRoot":"0x"+h.get(reg,"stateRoot()",["bytes32"]).hex()},
         "trust":"open computation and signed venue attestations; not a ZK proof","operations":ops}
+    if s.get("accountVersion",3)>=5:
+        q=s["core"]["quantity"]*10**(8-s["core"]["sizeDecimals"])
+        out["position"]={"quantityE8":str(q),"side":"SHORT" if q<0 else "LONG" if q>0 else "FLAT"}
+        out["riskControls"]={"accountVersion":5,"maxEntryLeverage":s["leverageCap"],"entryReserveBps":s["reserveBps"],"shortEnabled":s["shortEnabled"],"maxOrderE6":str(s["maxOrderE6"]),"lossStopE6":str(s["lossStopE6"]),"marginMode":"cross; dedicated contract account"}
     atomic(directory/"public.json",canonical(out))

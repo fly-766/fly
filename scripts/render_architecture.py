@@ -89,17 +89,19 @@ text(1520,664,"KC → MBON07 / 11",24,INK)
 text(1520,700,"0.1 ≤ W / W(base) ≤ 2",23,MUTED)
 arrow(1655,554,1655,579,GOLD)
 
-# C: proposal semantics and the actual long-flat state space.
-panel(70,811,900,438,"c","Contract-constrained execution")
+# C: signed-position semantics; both closes are reduce-only.
+panel(70,811,900,438,"c","Signed-position execution")
 text(105,904,"Neural proposal ≠ execution authorization",25,MUTED)
-rect(115,955,223,96,fill="#f4f8fa");text(226,1015,"FLAT",34,INK,True,anchor="middle")
-rect(705,955,223,96,fill="#edf6f5",stroke="#b7d8d5");text(816,1015,"LONG",34,TEAL,True,anchor="middle")
-arrow(355,980,687,980);text(519,959,"BUY · bounded entry",21,TEAL,anchor="middle")
-arrow(687,1040,355,1040);text(519,1077,"SELL · reduce only",21,TEAL,anchor="middle")
-line(108,1111,931,1111)
-text(110,1154,"Entry budget ≤ min(M, 100E / 101)",28,INK,False,True)
-text(110,1195,"Sequence · freshness · exposure · pending settlement",22,MUTED)
-text(110,1227,"HOLD or veto: no new position. No short entry.",21,MUTED)
+for x,label,color in [(110,"SHORT",GOLD),(415,"FLAT",INK),(720,"LONG",TEAL)]:
+    rect(x,973,210,84,fill="#f4f8fa");text(x+105,1026,label,32,color,True,anchor="middle")
+arrow(404,992,332,992,GOLD);text(369,959,"SELL",19,GOLD,anchor="middle")
+arrow(332,1043,404,1043,GOLD);text(369,1093,"BUY · close",18,GOLD,anchor="middle")
+arrow(638,992,708,992,TEAL);text(674,959,"BUY",19,TEAL,anchor="middle")
+arrow(708,1043,638,1043,TEAL);text(674,1093,"SELL · close",18,TEAL,anchor="middle")
+line(108,1114,931,1114)
+text(110,1156,"Entry budget ≤ min(M, L × E × (1 − r))",28,INK,False,True)
+text(110,1196,"L ≤ 20 · equity reserve ≥ 10% · no pyramiding",22,MUTED)
+text(110,1227,"Close → confirm flat → new commitment → entry",21,MUTED)
 
 # D: ledger quantities, not fabricated return or equity curves.
 panel(1030,811,900,438,"d","Capital accounting & profit return")

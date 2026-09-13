@@ -40,9 +40,16 @@ class Handler(SimpleHTTPRequestHandler):
         if path=="/api/operations":
             f=OPS/"public.json" if OPS else None
             return self.output_json(json.loads(f.read_text()) if f and f.exists() else {"ok":False,"deployment":"not_deployed","liveEnabled":False})
-        if path in ("/api/launch","/api/verify"):
+        if path in ("/api/launch","/api/verify","/api/verification"):
             from flyterm.launch_status import public_status
             return self.output_json(public_status())
+        if path=="/api/health":
+            import time
+            f=OPS/"public.json" if OPS else None
+            try:ops=json.loads(f.read_text()) if f and f.exists() else {}
+            except (OSError,ValueError):ops={}
+            age=max(0,int(time.time()*1000)-int(ops.get("at",0))) if ops.get("at") else None
+            return self.output_json({"schema":"fly-health/v1","viewerReady":True,"operationsConfigured":bool(OPS),"operationsFresh":age is not None and age<=90000,"operationsAgeMs":age,"liveEnabled":bool(ops.get("liveEnabled")) and age is not None and age<=90000})
         if path=="/api/acceptance":
             f=ROOT/"release/acceptance-v03.json"
             return self.output_json(json.loads(f.read_text()) if f.exists() else {"ok":False})
@@ -77,6 +84,10 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser();parser.add_argument("--port",type=int,default=8797);parser.add_argument("--run",type=Path,default=RUN);parser.add_argument("--ops",type=Path)
+    parser.add_argument("--instance",type=Path)
     args=parser.parse_args();RUN=args.run.resolve();OPS=args.ops.resolve() if args.ops else None
+    if args.instance:
+        import os
+        os.environ["FLYTERM_INSTANCE_FILE"]=str(args.instance.resolve())
     print(f"FlyTerm: http://127.0.0.1:{args.port} (viewer only)",flush=True)
     ThreadingHTTPServer(("127.0.0.1",args.port),Handler).serve_forever()

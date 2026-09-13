@@ -21,7 +21,7 @@ The system separates **neural proposal**, **execution authorization**, and **eco
 
 | Retained neural graph | Integration resolution | Decision window | Execution regime |
 |:--|:--|:--|:--|
-| 166,700 neurons · 25,582,938 edges | 0.1 ms model timestep | 500 ms simulated neural time | BTC perpetuals · long / flat · bounded entry exposure |
+| 166,700 neurons · 25,582,938 edges | 0.1 ms model timestep | 500 ms simulated neural time | BTC perpetuals · long / flat / short · up to 20× entry setting |
 
 Graph counts refer to the imported model, not the complete biological information contained in the underlying specimen. Neural time is distinct from wall-clock computation time.
 
@@ -68,20 +68,25 @@ Feedback is derived from changes in **settled trading net less booked operating 
 
 ## 3 · The execution boundary
 
-Fly currently uses a **long–flat** state space. `BUY` may open a bounded long position from flat. `SELL` closes or reduces an existing long through a reduce-only order. A `SELL` proposal while flat does not open a short.
+Version 0.5 uses a **long–flat–short** state space with a configurable entry-leverage ceiling up to **20×**. From flat, BUY can open a long and SELL can open a short. Against an existing opposite position, either action is reduce-only. Same-direction pyramiding is rejected; crossing zero requires a completed close followed by a new valid commitment.
 
-At entry, the admissible order budget is bounded by the configured order ceiling and available equity, with a reserve:
+For equity $E_t$, order ceiling $M$, leverage ceiling $L\le20$, reserve fraction $r\ge0.10$ and venue lot size $\Delta_q$,
 
 $$
-B_t^{\mathrm{entry}}=\min\left(M,\frac{100}{101}E_t\right),
-\qquad
-q_t^{\mathrm{entry}}=\Delta_q
-\left\lfloor\frac{B_t^{\mathrm{entry}}}{p_t^{\mathrm{limit}}\Delta_q}\right\rfloor.
+B_t^{\mathrm{entry}}=\min\left(M,L(1-r)E_t\right),\qquad
+p_t^{\mathrm{size}}=\max\left(p_t^{\mathrm{oracle}},p_t^{\mathrm{limit}}\right),
 $$
 
-The implementation additionally checks sequence, freshness, price tolerance, minimum notional, pending operations, pause state and order-rate limits. The formula describes an entry-sizing constraint; fees and subsequent market movements still matter. Emergency recovery can close exposure independently of a new neural proposal.
+$$
+\left|q_t^{\mathrm{entry}}\right|=\Delta_q
+\left\lfloor\frac{B_t^{\mathrm{entry}}}{p_t^{\mathrm{size}}\Delta_q}\right\rfloor.
+$$
 
-The neural decoder's symmetry does not imply a symmetric financial action space. Enabling short exposure requires a separately specified signed-position model, settlement arithmetic, margin policy and validation campaign. [Trading account](contracts/src/v03/TradingAccount.sol) · [Detailed action semantics](docs/METHODS.md#action-space).
+The conservative sizing price prevents a lower short-sale limit from increasing reference-price exposure. A 20× venue setting with a 10% equity reserve allows at most approximately 18× initial gross exposure before the absolute order cap and lot rounding. The contract verifies the account's actual native leverage setting before entry.
+
+The dedicated account uses cross margin. A short-enable control can disable new shorts while preserving buy-to-cover. Sequence, freshness, price tolerance, minimum notional, pending operations, pause state and order-rate limits remain enforced. Unexpected native-position changes trigger quarantine; liquidation and execution delays are not converted into fictitious fills. The stop threshold is a trigger, not a guaranteed loss ceiling.
+
+[Signed-position account](contracts/src/v05/TradingAccountV05.sol) · [Native risk reader](contracts/src/v05/NativeCoreReadV05.sol) · [Position mathematics](contracts/src/v05/PositionMathV05.sol) · [Action and margin semantics](docs/METHODS.md#action-space).
 
 ## 4 · Principal is an accounting invariant
 
@@ -94,7 +99,7 @@ P_t^{\mathrm{eligible}}=
 \max\left(0,\min\left(N_t-D_t-O_t,\ E_t-B_t-O_t\right)\right).
 $$
 
-It is zero when the eligibility conditions fail. A new deposit is principal; a favorable conversion is not automatically trading profit. The return path binds message identity, source, destination and accounting category. Buyback budgets are funded through the profit route and constrained by quote budgets and price checks. [Accounting specification](docs/METHODS.md#capital-accounting).
+It is zero when the eligibility conditions fail, including disagreement between recorded and native positions. A new deposit is principal; a favorable conversion is not automatically trading profit. The return path binds message identity, source, destination and accounting category. Buyback budgets are funded through the profit route and constrained by quote budgets and price checks. [Accounting specification](docs/METHODS.md#capital-accounting).
 
 ## 5 · Reproducibility and verification
 
@@ -121,6 +126,8 @@ A signature is not a proof of neural computation. A local hash chain alone canno
 
 ## Research scope
 
+The v0.5 controller and execution source are published here with an unarmed [policy profile](config/policy-v05.json). Historical v03/v04 contracts remain in the tree for versioned compatibility. Existing deployed trial accounts do not gain short support through a documentation or configuration change. See [v0.5 implementation notes](docs/V05-LONG-SHORT.md).
+
 This repository contains source and a technical methods description. It does not represent a peer-reviewed Fly paper, a biological validation study or a demonstrated trading edge. Production identity, deployment configuration and live performance evidence are separate release artifacts; no trial address is presented as an official instance here.
 
 The next scientific question is empirical: does the adaptive controller improve out-of-sample behavior relative to frozen weights, shuffled feedback, cash and passive BTC exposure after execution costs? The [evaluation protocol](docs/METHODS.md#evaluation-protocol) distinguishes that question from software acceptance.
@@ -132,7 +139,8 @@ The next scientific question is empirical: does the adaptive controller improve 
 | Sensory transduction | [`flyterm/sensory.py`](flyterm/sensory.py) |
 | Neural controller and memory | [`vendor/stonkfly/stonkfly/neural/`](vendor/stonkfly/stonkfly/neural/) |
 | Run journal and replay | [`flyterm/records.py`](flyterm/records.py), [`flyterm/live.py`](flyterm/live.py) |
-| Trading and capital accounting | [`contracts/src/v03/`](contracts/src/v03/) |
+| Signed positions and 20× entry constraints | [`contracts/src/v05/`](contracts/src/v05/) |
+| Capital routing and profit accounting | [`contracts/src/v03/`](contracts/src/v03/) |
 | Immediate recovery variants | [`contracts/src/v04/`](contracts/src/v04/) |
 | Operator planning and reconciliation | [`flyterm/ops/`](flyterm/ops/) |
 

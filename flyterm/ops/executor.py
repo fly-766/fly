@@ -21,7 +21,8 @@ class Executor:
         config_hash=object_hash(self.config)
         if self._verified_pins_for==config_hash:return
         pins={address(a).lower():v for a,v in self.config.get("runtimeCodeHashes",{}).items()}
-        if not pins or not set(self.config.get("allowedCalls",{}))<=set(pins):raise NotArmed("Deployed runtime code fingerprints required")
+        required=set(self.config.get("allowedCalls",{}))|{address(a).lower() for a in self.config.get("requiredReadCodePins",[])}
+        if not pins or not required<=set(pins):raise NotArmed("Deployed runtime code fingerprints required")
         values=self.rpc.batch([("eth_getCode",[a,"latest"]) for a in pins])
         for (at,expected),value in zip(pins.items(),values):
             code=raw(value)
@@ -43,6 +44,10 @@ class Executor:
             selector="0x"+data[:4].hex()
             if selector in pinned and "0x"+keccak(data).hex() not in pinned[selector]:raise ValueError("Calldata differs from approved launch")
             if self.config.get("creatorIncome") and to.lower()==self.config["creatorIncome"]["quote"].lower() and selector=="0xa9059cbb" and "creatorClaimTx" not in intent:raise ValueError("Creator sweep requires its own claim receipt")
+        if self.config.get("okxQuotes") and to and data[:4].hex() in (""+keccak(text="convert(uint256,uint256,bytes)")[:4].hex(),keccak(text="hopProfit(uint256,bytes)")[:4].hex()):
+            if "hopQuote" not in intent:raise NotArmed("Fresh unsigned quote required")
+            from .hop import validate_intent_quote
+            validate_intent_quote(intent,self.config)
         return to,data,value
     def reconcile(self,id):
         row=self.journal.get(id)

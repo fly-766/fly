@@ -13,13 +13,19 @@
     "usd0": "0x779Ded0c9e1022225f8E0630b35a9b54bE713736",
     "wgooglx": "0xf8c5308F80E459bb53d9EbE689854d9cBb2Caa6f",
     "wokb": "0xe538905cf8410324e03a5a23c1c177a474d59b2b",
-    "hopRouter": "0x722db4f285f8bd91ef7af6da397e83f7fa4e80a7",
+    "hopRouter": "0x7c5bee2a8091c3ef39072f64f18fac913060aeaf",
     "hopRouterKind": "okx-aggregator-balance-delta",
-    "hopPath": ["wGOOGLx", "WOKB", "USD0"],
-    "systemFactory": "0xb47856525d014eb27335c4fcd25f91ad1be6c006",
+    "hopPath": [
+      "wGOOGLx",
+      "aggregator-selected intermediates",
+      "USD0"
+    ],
+    "systemFactory": "0xb6f6e4d08f7895e0dc685144fc3ff1272649b6cc",
     "stablePool": "0xEEeB3C1F61DC3070C675c2670a3f2188A060012D",
     "manager": "0x96b51c57e5346d0c0198899243cf851d1e23c309",
-    "router": "0x182a927119d56008d921126764bf884221b10f59"
+    "router": "0x182a927119d56008d921126764bf884221b10f59",
+    "hopSpender": "0x8b773D83bc66Be128c60e07E17C8901f7a64F000",
+    "registry": "0xce65471a6c6950e17f4b527b20b0af8a8f905311"
   },
   "hyper": {
     "chainId": 999,

@@ -127,24 +127,57 @@ The signal aggregates accounting changes between observations. It can reflect bo
 
 <a id="action-space"></a>
 
-## 4. Action admissibility and the long–flat state space
+## 4. Signed positions, action admissibility and 20× entry constraints
 
-The financial position variable is restricted to $q\ge0$. BUY can initiate exposure only from flat, subject to admissible equity and policy checks. SELL uses the held quantity and a reduce-only venue flag. A SELL proposal at $q=0$ fails the nonzero-position condition.
+Version 0.5 admits $q\in\mathbb R$ and separates direction from the unsigned order magnitude. The original v03/v04 implementations remain long-only. In v05:
 
-For an eligible entry, ignoring representation-scale factors but retaining quantity rounding,
+| Position | BUY | SELL |
+|:--|:--|:--|
+| $q=0$ | Open long | Open short when enabled |
+| $q>0$ | No additional entry | Reduce or close long |
+| $q<0$ | Reduce or close short | No additional entry |
+
+Every close is reduce-only at the venue. The account does not reverse through zero in one order. Another entry needs a later valid commit, confirmed flat state and the entry cooldown. Disabling short entries does not disable short closure. A negative neural readout remains a proposal; it does not bypass the signed-position state machine.
+
+### 4.1 Exposure sizing
+
+For configured leverage $1\le L\le20$, reserve fraction $0.10\le r\le0.50$ and absolute notional ceiling $M$,
 
 $$
-B^{\mathrm{entry}}=\min(M,100E/101),\qquad
-q^{\mathrm{entry}}=\Delta_q\left\lfloor B^{\mathrm{entry}}/(p^{\mathrm{limit}}\Delta_q)\right\rfloor.
+B=\min\{M,L(1-r)E\},\qquad
+p_{\mathrm{size}}=\max\{p_{\mathrm{oracle}},p_{\mathrm{limit}}\},\qquad
+|q_{\mathrm{entry}}|=\Delta_q\left\lfloor\frac{B}{p_{\mathrm{size}}\Delta_q}\right\rfloor.
 $$
 
-$M$ is the configured order cap. The source enforces integer arithmetic, price rounding, lot size and minimum notional. The account also checks commit nonce, execution freshness, reference-price deviation, order cooldown, daily limits and unresolved operations. The 1× policy is an entry-exposure bound; it is not a guarantee against loss, execution failure or adverse fee/funding effects.
+The implementation uses integer arithmetic and rejects orders below the venue minimum. In particular, short sizing does not divide the budget only by a lower sell limit. The reserve and quantity rounding mean a 20× configured setting need not produce 20× gross exposure. Price movements after entry can change effective leverage.
 
-### Why SELL does not open a short
+The native reader checks BTC identity, the supported asset leverage, the account's actual leverage setting, and absence of other notional exposure when flat. It verifies a setting; it does not fabricate an unsupported CoreWriter leverage-update action.
 
-The neural decoder supplies three symbols; their financial semantics are imposed by the executor. In the current implementation, SELL means transition toward flat. This preserves a smaller state space for initial validation and avoids interpreting every negative readout as permission to create a new liability.
+### 4.2 Signed settlement
 
-A short-enabled extension would require a signed position $q\in\mathbb R$, separate open/reduce/close transitions, short-entry and exit cost accounting, partial-fill reconciliation, margin and liquidation checks, funding-cost handling, and long–flat–short evaluation controls. Changing the venue's reduce-only flag would not implement those properties. This documentation does not enable short trading.
+Terminal order evidence binds `ORDER_V05` and a signed `int64 finalPositionE8`. The expected final position is
+
+$$
+q_{\mathrm{after}}=q_{\mathrm{before}}+s\,f,
+\qquad s=+1\ \text{for BUY},\quad s=-1\ \text{for SELL},
+$$
+
+where $f$ is the absolute filled quantity. The native position must match. For a reducing fill with average price $\bar p$ and retired entry basis $B_{\mathrm{retired}}$,
+
+$$
+\Pi_{\mathrm{closed}}=\operatorname{sgn}(q_{\mathrm{before}})
+\left(f\bar p-B_{\mathrm{retired}}\right).
+$$
+
+Fees are accounted separately and deducted from trading net. Opening fills do not report closed trading PnL. Partial closes retain the remaining signed position and native remaining entry basis; a wrong-sign final-position attestation is rejected.
+
+### 4.3 Margin and failure semantics
+
+The supported mode is cross margin in a dedicated contract account, not isolated margin or simultaneous hedged positions. Contract entry caps do not guarantee a liquidation price or maximum loss. Hyperliquid liquidates against maintenance-margin requirements; mark-price changes, funding, fees and delayed execution can produce outcomes beyond a configured stop trigger. See [margining](https://hyperliquid.gitbook.io/hyperliquid-docs/trading/margining) and [liquidations](https://hyperliquid.gitbook.io/hyperliquid-docs/trading/liquidations).
+
+Unexpected native-position drift outside a known pending order is quarantined. New trading and profit extraction remain disabled under that recovery state. Partial, rejected and unknown outcomes retain distinct paths. A guardian can initiate emergency closure in the correct direction, including buy-to-cover. Once flat and settled, the immediate principal-recovery design is retained.
+
+See [`TradingAccountV05.sol`](../contracts/src/v05/TradingAccountV05.sol), [`NativeCoreReadV05.sol`](../contracts/src/v05/NativeCoreReadV05.sol), [`PositionMathV05.sol`](../contracts/src/v05/PositionMathV05.sol), and the [versioned implementation notes](V05-LONG-SHORT.md).
 
 <a id="capital-accounting"></a>
 
@@ -152,7 +185,7 @@ A short-enabled extension would require a signed position $q\in\mathbb R$, separ
 
 The capital path and profit path are deliberately separate. Tax conversion proceeds enter the principal ledger, and CCTP messages carry a category and basis through the project route. The receiving contract checks the expected source, destination, asset, caller and message identity. External venue evidence is reconciled against account state.
 
-Let $\mathcal F_t$ require a settled, flat account, no quarantined accounting, no unresolved principal/spot transfer, and positive eligible equity. With $D_t$ previously allocated profit,
+Let $\mathcal F_t$ require agreement between recorded and native position, a settled, flat account, no quarantined accounting, no unresolved principal/spot transfer, and positive eligible equity. With $D_t$ previously allocated profit,
 
 $$
 P_t=\begin{cases}
@@ -165,7 +198,7 @@ The two terms bound return by both accounting profit and equity in excess of ret
 
 The settlement signer remains trusted for parts of the venue evidence. Native account reads and reconciliation constrain the attestation; they do not eliminate that trust boundary. Gas paid externally is not automatically included in strategy P&L unless booked as operating cost.
 
-Buyback contracts accept the designated profit return route and apply budget and price checks. Before graduation, acquired inventory is escrowed; post-graduation paths can deliver acquired tokens to the designated dead address. This is not a holder redemption entitlement. See [`TradingAccount.sol`](../contracts/src/v03/TradingAccount.sol), [`CctpIngress.sol`](../contracts/src/v03/CctpIngress.sol), [`ProfitBuyback.sol`](../contracts/src/v03/ProfitBuyback.sol) and the recovery variants under [`v04`](../contracts/src/v04/).
+Buyback contracts accept the designated profit return route and apply budget and price checks. Before graduation, acquired inventory is escrowed; post-graduation paths can deliver acquired tokens to the designated dead address. This is not a holder redemption entitlement. See [`TradingAccountV05.sol`](../contracts/src/v05/TradingAccountV05.sol), [`CctpIngress.sol`](../contracts/src/v03/CctpIngress.sol), [`ProfitBuyback.sol`](../contracts/src/v03/ProfitBuyback.sol) and the recovery variants under [`v04`](../contracts/src/v04/).
 
 <a id="verification-model"></a>
 
@@ -218,7 +251,7 @@ The following is a proposed evaluation design, not a results table.
 | Fixed neural decoder | [`controller.py`](../vendor/stonkfly/stonkfly/neural/controller.py) |
 | Settled-ledger feedback and replay | [`flyterm/live.py`](../flyterm/live.py) |
 | Content-addressed journal | [`flyterm/records.py`](../flyterm/records.py) |
-| Entry bounds and reduce-only exits | [`TradingAccount.sol`](../contracts/src/v03/TradingAccount.sol) |
+| Signed entry bounds and reduce-only exits | [`TradingAccountV05.sol`](../contracts/src/v05/TradingAccountV05.sol) |
 | Signed run commitments | [`RunCommitRegistry.sol`](../contracts/src/v03/RunCommitRegistry.sol) |
 | Principal ingress and return categories | [`CctpIngress.sol`](../contracts/src/v03/CctpIngress.sol), [`CctpMessage.sol`](../contracts/src/v03/CctpMessage.sol) |
 | Profit budgeting and repurchase | [`ProfitBuyback.sol`](../contracts/src/v03/ProfitBuyback.sol) |

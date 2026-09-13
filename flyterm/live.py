@@ -14,16 +14,16 @@ def sources():
     paths=[ROOT/"market.py",ROOT/"policy.json",*sorted((ROOT/"flyterm").rglob("*.py"))]
     return {str(p.relative_to(ROOT)):file_digest(p) for p in paths}
 class LiveBrain:
-    def __init__(self,directory):
+    def __init__(self,directory,policy_path=None):
         self.directory=Path(directory);self.directory.mkdir(parents=True,exist_ok=True)
         self.lock=(self.directory/"worker.lock").open("ab")
         fcntl.flock(self.lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-        self.j=Journal(directory);policy=json.loads((ROOT/"policy.json").read_text())
+        self.j=Journal(directory);policy=json.loads(Path(policy_path or ROOT/"policy.json").read_text())
         self.brain=FullBrain(learning=policy["modelLearning"]);identity=self.brain.identity()
         calibration=verify_calibration(ROOT/policy["calibrationReport"],identity,policy["calibrationReportSha256"])
         m=self.j.meta("manifest")
         if m:
-            if m["model"]!=identity or m["runtimeSource"]!=sources():raise ValueError("Live run identity changed")
+            if m["model"]!=identity or m["runtimeSource"]!=sources() or m["policy"]!=policy:raise ValueError("Live run identity changed")
             self.j.audit();self.rows=restore_committed(self.brain,self.j)
         else:
             genesis=checkpoint(self.brain,self.j,"genesis")

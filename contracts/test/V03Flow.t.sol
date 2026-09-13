@@ -43,8 +43,8 @@ contract V03Flow is Test {
         account=new TradingAccount(c);assertEq(address(account),predictedAccount);
         principalIngress=new CctpIngress(txh,uh,37,19,address(ux),predictedTreasury,address(account),address(0),address(0));assertEq(address(principalIngress),predictedPrincipal);
         treasury=new TaxTreasury(ux,mx,predictedConverter,address(account),address(principalIngress),guardian,19,2e6,500e6,1000e6,50);
-        converter=new TaxConverter(pool,ux,usd0,address(hop),googl,wokb,treasury,manager,address(project),guardian,500e18,bytes4(keccak256("claim()")),false);
-        buyback=new ProfitBuyback(pool,ux,usd0,address(hop),googl,wokb,predictedProfitIngress,guardian,address(project),manager,router,100e6,500e18,600,500,50);
+        converter=new TaxConverter(pool,ux,usd0,address(hop),address(hop),googl,wokb,treasury,manager,address(project),guardian,500e18,bytes4(keccak256("claim()")),false,address(this));
+        buyback=new ProfitBuyback(pool,ux,usd0,address(hop),address(hop),googl,wokb,predictedProfitIngress,guardian,address(project),manager,router,100e6,500e18,600,500,50,address(this));
         recovery=new RecoveryVault(ux,predictedRecoveryIngress,cold,2 days);
         profitIngress=new CctpIngress(txx,ux,19,37,address(uh),address(account.exit()),address(0),address(buyback),address(0));
         recoveryIngress=new CctpIngress(txx,ux,19,37,address(uh),address(account.recoveryExit()),address(0),address(0),address(recovery));

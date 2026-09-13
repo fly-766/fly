@@ -22,7 +22,7 @@ contract XLayerStableFork is Test {
         address token=address(bytes20(hex"5ac39a75d2eda83d15024f6ab519093c63cfeeee"));
         address manager=address(bytes20(hex"96b51c57e5346d0c0198899243cf851d1e23c309"));
         address router=address(bytes20(hex"182a927119d56008d921126764bf884221b10f59"));
-        ProfitBuyback b=new ProfitBuyback(IV3Pool(0xEEeB3C1F61DC3070C675c2670a3f2188A060012D),u,t,address(0),t,IERC20(address(0)),address(this),address(this),token,IIgnixManager(manager),IV2Router(router),100e6,100e6,600,500,50);
+        ProfitBuyback b=new ProfitBuyback(IV3Pool(0xEEeB3C1F61DC3070C675c2670a3f2188A060012D),u,t,address(0),address(0),t,IERC20(address(0)),address(this),address(this),token,IIgnixManager(manager),IV2Router(router),100e6,100e6,600,500,50,address(this));
         deal(address(u),address(b),5e6);b.creditReturn(5e6,1,keccak256("fork-return"));
         b.convertProfit(5e6);b.observe();vm.warp(vm.getBlockTimestamp()+601);b.observe();
         uint256 beforeDead=IERC20(token).balanceOf(b.DEAD());b.buyback(1e6);

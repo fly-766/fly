@@ -2,5 +2,6 @@
   "schema": "fly-instance/v1",
   "published": false,
   "officialProduct": false,
-  "note": "The official token and public site are not published in this repository."
+  "role": "unpublished",
+  "note": "Production identity is configured at deployment; internal trials are not a public instance."
 }

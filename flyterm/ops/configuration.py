@@ -12,6 +12,10 @@ def keeper_config(bundle,protocol,keeper,from_blocks,funding_from_ms,run_dir):
         "bookCost(bytes32,int256,bool,uint64,uint64,bytes32,bytes)"],
         "registry":["submit((uint64,uint64,uint64,uint64,uint64,uint64,bytes32,bytes32,bytes32,bytes32,bytes32,uint8),bytes)"],
         "profitExit":["bridgeToEvm()","reconcileEvm()","burnReturn(uint256)"],"recoveryExit":["bridgeToEvm()","reconcileEvm()","burnReturn(uint256)"],"principalIngress":["receiveTransfer(bytes,bytes)"]}}
+    version=bundle.get("accountVersion",4)
+    if version>=5:
+        calls["hyper"]["account"]=[s.replace("settleOrder((uint8,uint64,uint64,int256,uint64,uint64)","settleOrder((uint8,uint64,uint64,int256,uint64,int64)") for s in calls["hyper"]["account"]]
+        calls["hyper"]["account"].append("quarantinePositionDrift()")
     immediate=bundle.get("withdrawalPolicy",{}).get("artificialDelaySeconds")==0
     if immediate:calls["xlayer"]["recoveryVault"]=["withdraw()"]
     for chain in ("xlayer","hyper"):
@@ -21,12 +25,22 @@ def keeper_config(bundle,protocol,keeper,from_blocks,funding_from_ms,run_dir):
             "addresses":a,"projectToken":token,"protocol":protocol[chain],"bridgeMaxFeeBps":10,"bridgeMaxFeeE6":1000000,
             "minimumConversionE6":1000000,"minimumBuybackE6":1000000,"maxBuybackE6":1000000,"minimumProfitE6":10000000,"maxProfitBatchE6":100000000,
             "fundingFromMs":int(funding_from_ms),"anchorEveryRounds":16,"minimumQuoteWei":10**15,"maxQuoteWei":5*10**18,"minimumBuybackQuoteWei":10**15,"maxBuybackQuoteWei":10**18}
+    x=chains["xlayer"];p=protocol["xlayer"];vault=bundle.get("taxVault")
+    x["okxQuotes"]={"enabled":True,"router":p["hopRouter"],"spender":p["hopSpender"],"selectors":["0xf2c42696"],"maxAgeSeconds":30,"maxSlippageBps":100,"maxPriceImpactBps":100}
+    x["creatorIncome"]={"manager":p["manager"],"vault":vault,"quote":p["wgooglx"],"converter":a["converter"],"minimumClaimWei":str(5*10**16),"maxSweepWei":str(5*10**18)}
+    if vault:
+        x["allowedCalls"][address(vault).lower()]=[selector("sync()"),selector("claimCreator()")]
+        x["allowedCalls"][address(p["wgooglx"]).lower()]=[selector("transfer(address,uint256)")]
+    x["requiredReadCodePins"]=[p["manager"],p["hopRouter"],p["hopSpender"],p["wgooglx"],p["usd0"],p["usdc"]]
+    chains["hyper"]["accountVersion"]=version
+    if version>=5:chains["hyper"].update(bundle["tradeLimits"])
     routes=[]
     for kind,source,dest,sender,recipient,ingress in [(0,"xlayer","hyper","treasury","account","principalIngress"),(1,"hyper","xlayer","profitExit","buyback","profitIngress"),(2,"hyper","xlayer","recoveryExit","recoveryVault","recoveryIngress")]:
         routes.append({"kind":kind,"sourceChain":source,"destinationChain":dest,"sourceDomain":protocol[source]["domain"],"destinationDomain":protocol[dest]["domain"],
             "destinationChainId":protocol[dest]["chainId"],"sourceSender":a[sender],"messageSender":a[sender],"burnToken":protocol[source]["usdc"],"mintRecipient":a[recipient],
             "destinationCaller":a[ingress],"fromBlock":int(from_blocks[source]),"confirmations":12})
     return {"schema":"flyterm-keeper/v03","liveEnabled":False,"runDirectory":str(run_dir),"chains":chains,"routes":routes,
+        "policyFile":"config/policy-v05.json" if version>=5 else "policy.json",
         "modelSigner":bundle["roles"]["modelSigner"],"modelKeyFileEnv":"FLYTERM_MODEL_KEY_FILE",
         "settlementSigner":bundle["roles"]["settlementSigner"],"settlementKeyFileEnv":"FLYTERM_SETTLEMENT_KEY_FILE",
         "gasPolicy":"externally sponsored; excluded from strategy PnL unless separately booked as operating cost",

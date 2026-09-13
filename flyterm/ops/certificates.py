@@ -7,6 +7,8 @@ from .codec import address,raw,calldata
 COMMIT_FIELDS=[("runId","bytes32"),("modelHash","bytes32"),("nonce","uint64"),("fromRound","uint64"),("toRound","uint64"),("observedAt","uint64"),("deadline","uint64"),("referencePriceE8","uint64"),("previousRecord","bytes32"),("record","bytes32"),("previousState","bytes32"),("nextState","bytes32"),("inputHash","bytes32"),("side","uint8")]
 SETTLEMENT_FIELDS=[("account","address"),("operation","bytes32"),("payload","bytes32"),("coreBlock","uint64"),("deadline","uint64"),("evidence","bytes32")]
 ORDER_TYPE="(uint8,uint64,uint64,int256,uint64,uint64)"
+ORDER_TYPE_V05="(uint8,uint64,uint64,int256,uint64,int64)"
+def order_type(account_version=3):return ORDER_TYPE_V05 if int(account_version)>=5 else ORDER_TYPE
 COMMIT_TYPE="("+",".join(t for _,t in COMMIT_FIELDS[2:])+")"
 def typed(kind,chain_id,contract,message):
     if kind not in ("Commit","Settlement"):raise ValueError("Unknown certificate")
@@ -23,11 +25,11 @@ def recover(document,signature):
 def payload(label,types,values):
     return "0x"+keccak(encode(["string",*types],[label,*values])).hex()
 def order_tuple(r):return tuple(r[k] for k in ("status","filledE8","averagePriceE8","closedPnlE6","feeE6","finalPositionE8"))
-def settlement_call(action,values,core_block,deadline,evidence,signature):
+def settlement_call(action,values,core_block,deadline,evidence,signature,account_version=3):
     tail_types=["uint64","uint64","bytes32","bytes"];tail=[core_block,deadline,raw(evidence,32),raw(signature,65)]
     if action in ("settleDeposit","settleClassTransfer","settleExit"):types=["uint64","uint64"];args=[values["creditedE6"] if action!="settleExit" else values["netE6"],values["feeE6"]]
     elif action in ("settleSetup","rejectClassTransfer","rejectExit"):types=[];args=[]
-    elif action=="settleOrder":types=[ORDER_TYPE];args=[order_tuple(values)]
+    elif action=="settleOrder":types=[order_type(account_version)];args=[order_tuple(values)]
     elif action=="bookCost":types=["bytes32","int256","bool"];args=[raw(values["id"],32),values["delta"],values["trading"]]
     else:raise ValueError("Unsupported settlement")
     all_types=types+tail_types

@@ -19,8 +19,8 @@ contract TaxConverter is StablePoolSwap,HopSwap,ReentrancyGuard {
     error Restricted();
     event Claimed(address indexed vault,uint256 received);
     event Converted(uint256 quoteSpent,uint256 usd0Hopped,uint256 usdcOutput);
-    constructor(IV3Pool pool,IERC20 u,IERC20 t,address hop,IERC20 quoteToken,IERC20 wrappedOkb,ICostTreasury dest,IIgnixManager m,address token,address g,uint256 maxAmount,bytes4 selector,bool hasRecipient)
-        StablePoolSwap(pool,u,t,50) HopSwap(hop,quoteToken,wrappedOkb,t) {
+    constructor(IV3Pool pool,IERC20 u,IERC20 t,address hop,address spender,IERC20 quoteToken,IERC20 wrappedOkb,ICostTreasury dest,IIgnixManager m,address token,address g,uint256 maxAmount,bytes4 selector,bool hasRecipient,address executor)
+        StablePoolSwap(pool,u,t,50) HopSwap(hop,spender,quoteToken,wrappedOkb,t,executor) {
         if(address(dest)==address(0)||address(m).code.length==0||token==address(0)||g==address(0)||maxAmount==0||selector==bytes4(0))revert Restricted();
         treasury=dest;manager=m;projectToken=token;guardian=g;maxBatch=maxAmount;claimSelector=selector;claimHasRecipient=hasRecipient;
     }

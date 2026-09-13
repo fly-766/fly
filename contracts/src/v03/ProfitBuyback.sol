@@ -22,8 +22,8 @@ contract ProfitBuyback is StablePoolSwap,HopSwap,ReentrancyGuard,IReturnReceiver
     event BoughtIntoEscrow(uint256 quoteSpent,uint256 tokenAmount,uint256 minimum);
     event EscrowSentDead(uint256 sent,uint256 receivedAtDead);
     event BoughtBack(uint256 quoteSpent,uint256 receivedAtDead,uint256 minimum);
-    constructor(IV3Pool pool,IERC20 u,IERC20 t,address hop,IERC20 quoteToken,IERC20 wrappedOkb,address i,address g,address token,IIgnixManager m,IV2Router r,uint256 maxAmount,uint256 maxQuote,uint32 period,uint16 haircut,uint16 reserveShare)
-        StablePoolSwap(pool,u,t,50) HopSwap(hop,quoteToken,wrappedOkb,t) {
+    constructor(IV3Pool pool,IERC20 u,IERC20 t,address hop,address spender,IERC20 quoteToken,IERC20 wrappedOkb,address i,address g,address token,IIgnixManager m,IV2Router r,uint256 maxAmount,uint256 maxQuote,uint32 period,uint16 haircut,uint16 reserveShare,address executor)
+        StablePoolSwap(pool,u,t,50) HopSwap(hop,spender,quoteToken,wrappedOkb,t,executor) {
         if(i==address(0)||g==address(0)||token==address(0)||address(m).code.length==0||address(r).code.length==0||maxAmount==0||maxQuote==0||period<600||haircut>1500||reserveShare==0||reserveShare>100)revert Restricted();
         ingress=i;guardian=g;projectToken=token;manager=m;router=r;maxBatch=maxAmount;maxQuoteBatch=maxQuote;window=period;haircutBps=haircut;maxReserveShareBps=reserveShare;
     }

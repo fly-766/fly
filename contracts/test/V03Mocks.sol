@@ -138,3 +138,13 @@ contract Core03 is ICoreRead03,ICoreWriter03,ICoreDeposit03 {
         blockNo++;
     }
 }
+
+/// @dev Test-only mirror of the observed System Vault creator income interface.
+contract SystemVault03 {
+    Coin03 public immutable QUOTE;address public immutable CREATOR;address public immutable TOKEN;
+    uint16 public constant DIVIDEND_BPS=0;uint256 public creatorOwed;
+    constructor(Coin03 q,address creator,address token){QUOTE=q;CREATOR=creator;TOKEN=token;}
+    function accrue(uint256 n) external {QUOTE.mint(address(this),n);}
+    function sync() external {creatorOwed=QUOTE.balanceOf(address(this));}
+    function claimCreator() external {require(msg.sender==CREATOR);uint256 n=creatorOwed;creatorOwed=0;require(QUOTE.transfer(CREATOR,n));}
+}

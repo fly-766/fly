@@ -10,7 +10,7 @@ class FreshnessTests(unittest.TestCase):
         k=Keeper.__new__(Keeper);k.config={"chains":{"xlayer":{"chainId":196,"signerAddress":A},"hyper":{"chainId":999,"signerAddress":A}}}
         k.live=False;k.directory=Path(".");k.j=NS(pending=lambda *args:[])
         k.rpcs={"xlayer":NS(chain_id=196),"hyper":NS(chain_id=999)}
-        def snapshot(rpc):return NS(rpc=rpc,timestamp=1000 if rpc.chain_id==196 else stamp,block={"hash":"0x"+"12"*32})
+        def snapshot(rpc,**kwargs):return NS(rpc=rpc,timestamp=1000 if rpc.chain_id==196 else stamp,block={"hash":"0x"+"12"*32})
         with patch("flyterm.ops.keeper.Snapshot",side_effect=snapshot),patch("flyterm.ops.public.publish"),patch("flyterm.ops.keeper.time.time",return_value=1000):
             result=k.step()
         self.assertEqual(result,{"state":"WAIT","reason":"stale_chain_snapshot","chains":["hyper"]})

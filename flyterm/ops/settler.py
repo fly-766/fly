@@ -40,10 +40,12 @@ def collect(snapshot,config,venue):
         cloid="0x"+s["cloid"].to_bytes(16,"big").hex()
         values,order_evidence,_=venue.terminal(a,cloid,amount,s["pendingBuy"],s["sentAt"]*1000)
         final=core["quantity"]*10**(8-core["sizeDecimals"])
-        expected=s["positionBeforeE8"]+(values["filledE8"] if s["pendingBuy"] else -values["filledE8"])
+        expected=s.get("positionBeforeSignedE8",s["positionBeforeE8"])+(values["filledE8"] if s["pendingBuy"] else -values["filledE8"])
         if final!=expected or core["isolated"]:raise EvidenceIncomplete("Terminal fill/native position disagree")
         values["finalPositionE8"]=final;evidence["raw"]=[order_evidence];action="settleOrder"
-        h=payload("ORDER",["uint128",ORDER_TYPE],[s["cloid"],order_tuple(values)])
+        from .certificates import order_type
+        version=config.get("accountVersion",3)
+        h=payload("ORDER_V05" if version>=5 else "ORDER",["uint128",order_type(version)],[s["cloid"],order_tuple(values)])
     elif kind==3:
         dest=config["addresses"]["recoveryExit" if s["exitKind"]==2 else "profitExit"]
         before=snapshot.get(dest,"coreBefore()",["uint256"]);spot=snapshot.spot(reader,dest);delta=spot["balanceE8"]-before

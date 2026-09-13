@@ -5,7 +5,7 @@ PARAMS=[("name","string"),("symbol","string"),("metadataURI","string"),("salt","
 PARAM_TYPE="("+",".join(t for _,t in PARAMS)+")"
 ZERO="0x"+"00"*32
 WGOOGLX="0xf8c5308F80E459bb53d9EbE689854d9cBb2Caa6f"
-SYSTEM_FACTORY="0xb47856525d014eb27335c4fcd25f91ad1be6c006"
+SYSTEM_FACTORY="0xb6f6e4d08f7895e0dc685144fc3ff1272649b6cc"
 def vault_data(holder_bps=0):
     if not 0<=int(holder_bps)<=10000:raise ValueError("Holder dividend bps out of range")
     return "0x"+encode(["uint256","uint256","uint256","uint256","uint256"],[int(holder_bps),0,0,0,0]).hex()

@@ -1,0 +1,6 @@
+{
+  "leverageCap": 20,
+  "reserveBps": 1000,
+  "maxOrderE6": 200000000,
+  "lossStopE6": 2000000
+}

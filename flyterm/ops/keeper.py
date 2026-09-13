@@ -8,7 +8,7 @@ from .state import Snapshot
 from .executor import Executor,NotArmed
 from .journal import OperationJournal
 from .codec import object_hash,raw
-from .planner import hyper_step,xlayer_step,action
+from .planner import hyper_step,xlayer_step,action,neural_actionable
 from .settler import collect
 from .funding import next_funding
 from .certificates import typed,sign,settlement_call,commit_call
@@ -30,7 +30,15 @@ class Keeper:
         self.executors={n:Executor(c,self.j,self.rpcs[n]) for n,c in config["chains"].items()}
         if live:
             for executor in self.executors.values():executor.verify_code_pins()
+            x=config["chains"]["xlayer"]
+            if not config.get("localFixtureOnly"):
+                if not x.get("creatorIncome",{}).get("vault"):raise NotArmed("Production tax vault not configured")
+                snapshot=Snapshot(self.rpcs["xlayer"])
+                for name in ("converter","buyback"):
+                    if snapshot.get(x["addresses"][name],"hopExecutor()",["address"]).lower()!=x["signerAddress"].lower():raise NotArmed("Hop operator identity mismatch")
         self.venue=Venue();self.cctp=Cctp()
+        from .hop import OkxQuotes
+        self.quotes=OkxQuotes()
     def close(self):self.j.close();self.lock.close()
     def _key(self,env):
         name=self.config[env];p=os.environ.get(name)
@@ -41,7 +49,8 @@ class Keeper:
         c=self.config["chains"][chain]
         # Identical calldata can be a NEW claim/deposit/buyback in a later state.
         # Only retries of the same saved operation reuse its id and signed bytes.
-        intent=dict(plan["intent"]);intent["operationContext"]=self.snapshots[chain].block["hash"]
+        intent=dict(plan["intent"])
+        if "creatorClaimTx" not in intent:intent["operationContext"]=self.snapshots[chain].block["hash"]
         out=self.executors[chain].submit(plan["kind"],intent,live=self.live,approved_hash=object_hash(c))
         if "evidence" in plan:self.j.save_evidence(plan["evidence"])
         return {"chain":chain,"kind":plan["kind"],**out}
@@ -49,7 +58,7 @@ class Keeper:
         doc=typed("Settlement",cfg["chainId"],cfg["addresses"]["settlement"],cert["message"]);self.j.save_evidence(cert["evidence"])
         if not self.live:return {"chain":"hyper","kind":cert["action"],"state":"CERTIFICATE_PLAN","typedData":doc,"evidenceHash":cert["message"]["evidence"],"signingEnabled":False}
         sig=sign(doc,self._key("settlementKeyFileEnv"),self.config["settlementSigner"])
-        m=cert["message"];data=settlement_call(cert["action"],cert["values"],m["coreBlock"],m["deadline"],m["evidence"],sig)
+        m=cert["message"];data=settlement_call(cert["action"],cert["values"],m["coreBlock"],m["deadline"],m["evidence"],sig,cfg.get("accountVersion",3))
         return self._submit("hyper",{"kind":cert["action"],"intent":{"chainId":cfg["chainId"],"to":cfg["addresses"]["account"],"value":"0","data":data},"evidence":cert["evidence"]})
     def step(self):
         # Uncertain transactions keep their nonce and calldata. No blind new submission.
@@ -58,7 +67,7 @@ class Keeper:
             if pending:
                 e=self.executors[chain]
                 return {"chain":chain,**(e.resume(pending[0]["id"],approved_hash=object_hash(cfg)) if self.live else e.reconcile(pending[0]["id"]))}
-        snapshots={n:Snapshot(r) for n,r in self.rpcs.items()};self.snapshots=snapshots
+        snapshots={n:Snapshot(r,account_version=self.config["chains"][n].get("accountVersion",3)) for n,r in self.rpcs.items()};self.snapshots=snapshots
         from .public import publish
         publish(self.directory,self.config,snapshots,self.j)
         now=int(time.time())
@@ -75,20 +84,24 @@ class Keeper:
             try:return self._certificate(snap,cfg,collect(snap,cfg,self.venue))
             except EvidenceIncomplete:return {"chain":"hyper","state":"WAIT","reason":"venue_evidence_incomplete"}
         if "intent" in hplan:return self._submit("hyper",hplan)
-        funding=next_funding(Snapshot(self.rpcs["hyper"],cfg["confirmations"]),cfg,self.venue,self.j)
+        funding=next_funding(Snapshot(self.rpcs["hyper"],cfg["confirmations"],cfg.get("accountVersion",3)),cfg,self.venue,self.j)
         if funding:return self._certificate(snap,cfg,funding)
         xcfg=dict(self.config["chains"]["xlayer"]);xcfg["localFixtureOnly"]=self.config.get("localFixtureOnly",False)
-        xplan=xlayer_step(snapshots["xlayer"],xcfg)
+        from .creator import creator_step
+        xcfg["allowNewCapital"]=hplan.get("wait")!="paused_or_recovery_only"
+        cplan=creator_step(snapshots["xlayer"],xcfg,self.j) if xcfg["allowNewCapital"] else None
+        if cplan:return self._submit("xlayer",cplan)
+        xplan=xlayer_step(snapshots["xlayer"],xcfg,self.quotes)
         if "intent" in xplan:return self._submit("xlayer",xplan)
         if hplan.get("wait")!="model_observation" or not self.brain:return {"state":"WAIT","hyper":hplan.get("wait"),"xlayer":xplan.get("wait")}
         state=hplan["snapshot"];reg=cfg["addresses"]["registry"];nonce=snap.get(reg,"nonce()",["uint64"]);side=snap.get(reg,"side()",["uint8"])
-        actionable=(side==1 and state["core"]["quantity"]==0 and (state["day"]!=snap.timestamp//86400 or state["ordersToday"]<24) and snap.timestamp>=state["lastOrderAt"]+20) or (side==2 and state["core"]["quantity"]>0)
+        actionable=neural_actionable(side,state,cfg,snap.timestamp)
         if nonce>state["lastCommit"] and snap.get(reg,"deadline()",["uint64"])>=snap.timestamp and actionable:
             return self._submit("hyper",action(cfg["chainId"],cfg["addresses"]["account"],"execute(uint64)",["uint64"],[nonce],"model_execute"))
         self.brain.observe(state)
         message=self.brain.commit(snap,cfg)
         if message is None:return {"state":"WAIT","reason":"next_completed_market_bar"}
-        side=message["side"];actionable=(side==1 and state["core"]["quantity"]==0) or (side==2 and state["core"]["quantity"]>0)
+        side=message["side"];actionable=neural_actionable(side,state,cfg,snap.timestamp)
         if not actionable and message["toRound"]-message["fromRound"]+1<cfg["anchorEveryRounds"]:return {"state":"OBSERVED","round":message["toRound"],"side":side}
         doc=typed("Commit",cfg["chainId"],reg,message)
         if not self.live:return {"state":"COMMIT_PLAN","typedData":doc,"signingEnabled":False}

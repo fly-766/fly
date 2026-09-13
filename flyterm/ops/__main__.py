@@ -8,12 +8,12 @@ def write(p,v):
 def main():
     ap=argparse.ArgumentParser(description="FlyTerm v0.4 local preparation and explicitly armed execution")
     sub=ap.add_subparsers(dest="command",required=True)
-    d=sub.add_parser("prepare-deploy");d.add_argument("--roles",required=True);d.add_argument("--token",required=True);d.add_argument("--manifest",required=True);d.add_argument("--out",required=True)
+    d=sub.add_parser("prepare-deploy");d.add_argument("--account-version",type=int,choices=(4,5),default=5);d.add_argument("--trade-limits");d.add_argument("--roles",required=True);d.add_argument("--token",required=True);d.add_argument("--manifest",required=True);d.add_argument("--out",required=True)
     l=sub.add_parser("prepare-launch");l.add_argument("--draft",required=True);l.add_argument("--creator",required=True);l.add_argument("--quote",required=True);l.add_argument("--out",required=True)
     v=sub.add_parser("validate-launch");v.add_argument("--response",required=True);v.add_argument("--expected",required=True);v.add_argument("--limits",required=True);v.add_argument("--manager",required=True);v.add_argument("--out",required=True)
-    c=sub.add_parser("prepare-keeper");c.add_argument("--deployment",required=True);c.add_argument("--keeper",required=True);c.add_argument("--xlayer-from",type=int,required=True);c.add_argument("--hyper-from",type=int,required=True);c.add_argument("--funding-from-ms",type=int,required=True);c.add_argument("--run",required=True);c.add_argument("--out",required=True)
+    c=sub.add_parser("prepare-keeper");c.add_argument("--deployment",required=True);c.add_argument("--tax-vault");c.add_argument("--keeper",required=True);c.add_argument("--xlayer-from",type=int,required=True);c.add_argument("--hyper-from",type=int,required=True);c.add_argument("--funding-from-ms",type=int,required=True);c.add_argument("--run",required=True);c.add_argument("--out",required=True)
     pin=sub.add_parser("pin-runtime");pin.add_argument("--config",required=True);pin.add_argument("--out",required=True)
-    init=sub.add_parser("init-run");init.add_argument("--out",required=True)
+    init=sub.add_parser("init-run");init.add_argument("--out",required=True);init.add_argument("--policy",default="config/policy-v05.json")
     replay=sub.add_parser("replay-contract-run");replay.add_argument("--run",required=True)
     for name in ("step","run"):
         k=sub.add_parser(name);k.add_argument("--config",required=True);k.add_argument("--state",required=True);k.add_argument("--live",action="store_true");k.add_argument("--approved-config-hash");k.add_argument("--observe",action="store_true")
@@ -22,7 +22,7 @@ def main():
     a=ap.parse_args()
     if a.command=="prepare-deploy":
         from .deployment import prepare
-        write(a.out,prepare(read(a.roles),a.token,read(a.manifest)))
+        write(a.out,prepare(read(a.roles),a.token,read(a.manifest),account_version=a.account_version,trade_limits=read(a.trade_limits) if a.trade_limits else None))
     elif a.command=="prepare-launch":
         from .launch import request
         write(a.out,request(read(a.draft),a.creator,a.quote))
@@ -32,7 +32,9 @@ def main():
     elif a.command=="prepare-keeper":
         from .configuration import keeper_config
         from .deployment import ROOT
-        write(a.out,keeper_config(read(a.deployment),read(ROOT/"config/protocol-addresses.json"),a.keeper,{"xlayer":a.xlayer_from,"hyper":a.hyper_from},a.funding_from_ms,a.run))
+        bundle=read(a.deployment)
+        if a.tax_vault:bundle["taxVault"]=a.tax_vault
+        write(a.out,keeper_config(bundle,read(ROOT/"config/protocol-addresses.json"),a.keeper,{"xlayer":a.xlayer_from,"hyper":a.hyper_from},a.funding_from_ms,a.run))
     elif a.command=="pin-runtime":
         from .rpc import Rpc
         from .codec import raw
@@ -40,7 +42,7 @@ def main():
         c=read(a.config)
         for chain in c["chains"].values():
             rpc=Rpc(os.environ.get(chain["rpcEnv"]),chain["chainId"]);rpc.verify_chain();pins={}
-            for addr in chain["allowedCalls"]:
+            for addr in sorted(set(chain["allowedCalls"])|{str(x).lower() for x in chain.get("requiredReadCodePins",[])}):
                 code=raw(rpc.code(addr))
                 if not code:raise ValueError("Expected deployed project contract absent")
                 pins[addr]="0x"+keccak(code).hex()
@@ -48,7 +50,7 @@ def main():
         write(a.out,c)
     elif a.command=="init-run":
         from flyterm.live import LiveBrain
-        b=LiveBrain(a.out)
+        b=LiveBrain(a.out,policy_path=a.policy)
         try:print(json.dumps({"runId":b.manifest["runId"],"manifest":str(Path(a.out)/"manifest.json"),"signingEnabled":False}))
         finally:b.close()
     elif a.command=="replay-contract-run":
@@ -59,7 +61,7 @@ def main():
         c=read(a.config);brain=None
         if a.observe:
             from flyterm.live import LiveBrain
-            brain=LiveBrain(c["runDirectory"])
+            brain=LiveBrain(c["runDirectory"],policy_path=c.get("policyFile"))
         keeper=None
         try:
             keeper=Keeper(c,a.state,live=a.live,approved=a.approved_config_hash,brain=brain)

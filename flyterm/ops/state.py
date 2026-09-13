@@ -3,8 +3,8 @@ from eth_abi import decode
 from .codec import raw,address,calldata
 STATE_TYPE="(int64,uint64,uint64,int64,int64,uint64,uint8,bool,bool)"
 class Snapshot:
-    def __init__(self,rpc,confirmations=1):
-        self.rpc=rpc;self.account_cache={}
+    def __init__(self,rpc,confirmations=1,account_version=3):
+        self.rpc=rpc;self.account_cache={};self.account_version=int(account_version)
         self.block=rpc.call("eth_getBlockByNumber",["latest",False])
         if confirmations>1:
             number=max(0,int(self.block["number"],16)-int(confirmations)+1)
@@ -29,10 +29,12 @@ class Snapshot:
                 "exitKind":"uint8","setupComplete":"bool","paused":"bool","accountingQuarantined":"bool","recoveryOnly":"bool",
                 "nativePrincipalE6":"uint256","costBasisE6":"uint256","unallocatedSpotE6":"uint256",
                 "tradingNetE6":"int256","operatingCostE6":"uint256","profitSentE6":"uint256","availableProfit":"uint256","lastCommit":"uint64"}
+        if self.account_version>=5:
+            fields.update(positionBeforeSignedE8="int64",settledPositionE8="int64",pendingReduceOnly="bool",shortEnabled="bool",leverageCap="uint8",reserveBps="uint16",lossStopE6="uint64",maxOrderE6="uint64",orderCooldown="uint32",maxOrdersPerDay="uint16")
         calls=[("eth_call",[{"to":address(at),"data":calldata(k+"()",[],[])},self.tag]) for k in fields]
         values=self.rpc.batch(calls)
         result={k:decode([t],raw(value))[0] for (k,t),value in zip(fields.items(),values)}
         result["operation"]="0x"+result["operation"].hex()
-        result.update(account=address(at),chainId=self.rpc.chain_id,core=self.core(reader,at),spot=self.spot(reader,at),evmBlock=self.tag,evmBlockHash=self.block["hash"],timestamp=self.timestamp)
+        result.update(accountVersion=self.account_version,account=address(at),chainId=self.rpc.chain_id,core=self.core(reader,at),spot=self.spot(reader,at),evmBlock=self.tag,evmBlockHash=self.block["hash"],timestamp=self.timestamp)
         self.account_cache[key]=result
         return result
