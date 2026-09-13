@@ -1,53 +1,143 @@
-# Fly
+<div align="center">
 
-A fruit fly sits at a desk and watches Bitcoin.
+# FLY
+### Connectome-driven control under verifiable capital constraints
 
-That is the whole premise, taken seriously. Fly uses a publicly specified *Drosophila* connectome — 166,700 neurons, 25 million retained edges — as a trading controller. Market candles are encoded as light. The circuit proposes BUY, SELL, or HOLD. A contract envelope, not the fly, decides whether money may move.
+**Spiking neural dynamics · Anatomically grounded connectivity · Auditable execution**
 
-Tax taken on X Layer is principal. It is meant to become Hyperliquid BTC inventory. Only realized profit is meant to come home and buy the token back. The fly does not get to invent a withdrawal.
+[Methods](docs/METHODS.md) · [Architecture figure](docs/figures/fly-architecture.svg) · [Implementation map](docs/METHODS.md#implementation-map) · [Provenance](docs/PROVENANCE.md)
 
-This repository is the explanation and the source. The public site, the production deployment, and the official token are published separately, when they exist.
+</div>
 
-## How the money is supposed to move
+![Fly architecture: market encoding, retained connectome dynamics, constrained long-flat execution and accountable capital. Connectivity is schematic.](docs/figures/fly-architecture.png)
 
-Someone trades the token on X Layer. One percent on the buy, one percent on the sell, quoted in wrapped Google stock (wGOOGLx). That tax is not a holder dividend. It is claimed, converted toward native USDC, and bridged with Circle’s CCTP onto HyperEVM.
+*Figure 1. A separation of sensory computation, action admissibility and capital accounting. The network proposes an action; execution depends on independently checked account state. Connectivity is schematic, and no performance data are plotted. [Vector figure](docs/figures/fly-architecture.svg).*
 
-There it is treated as cost basis: BTC perpetual, long or flat, no more than 1×, no more than a small fixed order. The connectome may propose. Policy may veto. A fill is confirmed as a fill, not as a signature that “should have” filled.
+## Abstract
 
-If the book is actually ahead of principal, that surplus — and only that surplus — is allowed to return, hop back into wGOOGLx, and repurchase under caps. Pre-graduation inventory stays in a fixed contract. After graduation it can be sent to a dead address. Principal is not profit. Profit is not a holder redeem right.
+Fly is an experimental control system coupling a retained *Drosophila* male central nervous system connectome to a contract-constrained trading account. Its controller operates on **166,700 neurons and 25,582,938 directed connections**, using the Stonkfly implementation of the MaleCNS graph. Completed market observations are transformed into visual stimuli, propagated through spiking neural dynamics, and decoded through identified descending-neuron populations. An engineered, dopamine-associated plasticity mechanism modifies selected existing connections in response to settled accounting changes.
 
-```text
-trade tax (wGOOGLx)
-    → claim
-    → convert to USDC
-    → CCTP onto HyperEVM
-    → BTC principal (long / flat)
-    → realized profit only
-    → buyback
-```
+The system separates **neural proposal**, **execution authorization**, and **economic settlement**. Position constraints, transaction continuity, capital-basis accounting and bounded profit return are implemented outside the neural network. Content-addressed inputs, state checkpoints and sequential commitments support reproducibility and retrospective verification. The research object is an inspectable controller–execution interface; neither profitable learning nor biological equivalence is established.
 
-## What the fly actually is
+| Retained neural graph | Integration resolution | Decision window | Execution regime |
+|:--|:--|:--|:--|
+| 166,700 neurons · 25,582,938 edges | 0.1 ms model timestep | 500 ms simulated neural time | BTC perpetuals · long / flat · bounded entry exposure |
 
-The controller is [Stonkfly](https://github.com/nftechie/stonkfly)’s MaleCNS graph, not a toy network and not a language model picking trades. Closed candles become left/right brightness. Spikes propagate. A fixed decoder emits a side. Learning, when enabled, is an engineered dopamine-like update — not a claim that the animal understands a market, and not a forecast of return.
+Graph counts refer to the imported model, not the complete biological information contained in the underlying specimen. Neural time is distinct from wall-clock computation time.
 
-Same input, same source, same policy should replay to the same record on the same machine. A hash of that record can later be anchored so a file cannot be quietly rewritten. That is not a zero-knowledge proof that the neuron step ran, and it is not a live track record.
+## 1 · From market observations to neural action
 
-## What this source contains
+Let $p_t$ denote a completed candle's close, $r_t=\log(p_t/p_{t-1})$, and $\sigma_t$ the population standard deviation of the latest 60 returns, floored at $10^{-6}$. The sensory encoder uses
 
-| Path | Role |
-|---|---|
-| `contracts/` | Conversion, bridge ingress, trading account, recovery, buyback |
-| `flyterm/` | Connectome runtime, journals, unarmed operator planning |
-| `web/` | Laboratory interface |
-| `vendor/stonkfly/` | Upstream controller (MIT), without the bulk data arrays |
-| `DISCLOSURE.md` | Affiliations, risk, and what is not being claimed |
+$$
+z_t=\frac{\log(p_t/p_{t-3})}{\sqrt{3}\,\sigma_t}.
+$$
 
-Keys never live in this tree. Generated keepers stay unarmed until a deployment is configured elsewhere.
+A neutral field is emitted for $|z_t|<0.05$. Otherwise, a bounded luminance proportional to $\min(|z_t|,1)$ is applied to the left or right half of a $320\times180$ RGB frame. This is an explicit, project-designed transducer. It introduces a directional market prior; it is not a claim that a biological circuit intrinsically represents price.
 
-## What Fly is not
+The retained graph evolves under the upstream spiking model. A fixed readout compares mean DNp20 firing rates, subject to a DNpe017 activity gate:
 
-Not Google. Not IGNIX. Not Circle. Not Hyperliquid. Not Janelia. wGOOGLx is a wrapped stock token on X Layer; it is not listed GOOGL. Caps limit loss; they do not produce return. Nothing here is an offer to buy or sell a security.
+$$
+\delta_t=\bar\nu_{R,t}-\bar\nu_{L,t},\qquad
+\hat a_t=
+\begin{cases}
+\mathrm{BUY},&g_t>0\;\land\;\delta_t\ge2\,\mathrm{Hz},\\
+\mathrm{SELL},&g_t>0\;\land\;\delta_t\le-2\,\mathrm{Hz},\\
+\mathrm{HOLD},&\text{otherwise}.
+\end{cases}
+$$
 
-## License
+The neural output selects a proposal, not a wallet recipient, leverage multiplier or transfer permission. [Sensory implementation](flyterm/sensory.py) · [Neural decoder](vendor/stonkfly/stonkfly/neural/controller.py).
 
-MIT for project source. Stonkfly remains MIT. MaleCNS data stays under its upstream terms. See [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
+## 2 · Plasticity with an explicit experimental hypothesis
+
+Plasticity is restricted to reconstructed KC-to-MBON07/11 connections. PAM11- and PPL101-associated compartments provide engineered reinforcing signals. For a selected edge $e$, the implementation maintains filtered activity traces and two efficacy states:
+
+$$
+\dot u_e=-\frac{u_e}{\tau_u}
++\eta\left(k_e\,\widetilde d_e-d_e\,\widetilde k_e\right),
+\qquad
+\dot w_e=\frac{u_e-w_e}{\tau_w},
+\qquad
+W_e=W_e^{(0)}(1+w_e).
+$$
+
+Here $d_e$ is the anatomically weighted, baseline-centered dopaminergic activity for the edge's compartment. The implementation bounds $W_e/W_e^{(0)}$ to $[0.1,2.0]$, with $\tau_u=1800$ s and $\tau_w=0.05$ s in simulated time. This is an adaptation motivated by [Huang et al. (2024)](https://doi.org/10.1038/s41586-024-07819-w); applying it to this retained male graph is a model assumption, not a reproduction of that paper's biological validation.
+
+Feedback is derived from changes in **settled trading net less booked operating cost**. Small changes fall inside a deadband. It is not an oracle for optimal actions or a precise causal attribution of profit to individual neurons. [Rule implementation](vendor/stonkfly/stonkfly/neural/rule.py) · [Feedback implementation](flyterm/live.py).
+
+## 3 · The execution boundary
+
+Fly currently uses a **long–flat** state space. `BUY` may open a bounded long position from flat. `SELL` closes or reduces an existing long through a reduce-only order. A `SELL` proposal while flat does not open a short.
+
+At entry, the admissible order budget is bounded by the configured order ceiling and available equity, with a reserve:
+
+$$
+B_t^{\mathrm{entry}}=\min\left(M,\frac{100}{101}E_t\right),
+\qquad
+q_t^{\mathrm{entry}}=\Delta_q
+\left\lfloor\frac{B_t^{\mathrm{entry}}}{p_t^{\mathrm{limit}}\Delta_q}\right\rfloor.
+$$
+
+The implementation additionally checks sequence, freshness, price tolerance, minimum notional, pending operations, pause state and order-rate limits. The formula describes an entry-sizing constraint; fees and subsequent market movements still matter. Emergency recovery can close exposure independently of a new neural proposal.
+
+The neural decoder's symmetry does not imply a symmetric financial action space. Enabling short exposure requires a separately specified signed-position model, settlement arithmetic, margin policy and validation campaign. [Trading account](contracts/src/v03/TradingAccount.sol) · [Detailed action semantics](docs/METHODS.md#action-space).
+
+## 4 · Principal is an accounting invariant
+
+The intended funding path converts X Layer trading-tax proceeds toward native USDC, bridges through Circle CCTP, and allocates the received value as trading principal. Profit return is a separate accounting path.
+
+Let $N_t$ be cumulative settled trading net, $D_t$ previously allocated profit, $O_t$ booked operating cost, $E_t$ current account equity and $B_t$ retained capital basis. When the account is flat, settled and otherwise eligible, the return ceiling is
+
+$$
+P_t^{\mathrm{eligible}}=
+\max\left(0,\min\left(N_t-D_t-O_t,\ E_t-B_t-O_t\right)\right).
+$$
+
+It is zero when the eligibility conditions fail. A new deposit is principal; a favorable conversion is not automatically trading profit. The return path binds message identity, source, destination and accounting category. Buyback budgets are funded through the profit route and constrained by quote budgets and price checks. [Accounting specification](docs/METHODS.md#capital-accounting).
+
+## 5 · Reproducibility and verification
+
+Each observation binds the market input, neural output, preceding and succeeding state fingerprints, and a run identity. The local record chain uses
+
+$$
+H_t=\operatorname{SHA256}\!\left(
+\operatorname{canonicalJSON}\{\mathrm{previous}:H_{t-1},\ \mathrm{body}:R_t\}
+\right).
+$$
+
+Checkpoints and artifacts are addressed by content. Replay checks the declared source, model, policy and execution environment. Selected record and state roots can be committed through the on-chain registry.
+
+These mechanisms establish different properties:
+
+| Evidence | What it supports |
+|:--|:--|
+| Locked source and dataset fingerprints | Identity of the declared implementation and inputs |
+| Same-environment replay | Reproduction of the recorded computation from retained state and inputs |
+| Externally held or on-chain record roots | Detection of alteration relative to that published commitment |
+| Venue records and account reconciliation | Evidence for actual execution and account transitions |
+
+A signature is not a proof of neural computation. A local hash chain alone cannot reveal replacement of the entire history without an external reference. Publication completeness, market-data integrity and the settlement signer remain explicit trust boundaries. [Verification model](docs/METHODS.md#verification-model).
+
+## Research scope
+
+This repository contains source and a technical methods description. It does not represent a peer-reviewed Fly paper, a biological validation study or a demonstrated trading edge. Production identity, deployment configuration and live performance evidence are separate release artifacts; no trial address is presented as an official instance here.
+
+The next scientific question is empirical: does the adaptive controller improve out-of-sample behavior relative to frozen weights, shuffled feedback, cash and passive BTC exposure after execution costs? The [evaluation protocol](docs/METHODS.md#evaluation-protocol) distinguishes that question from software acceptance.
+
+## Source and references
+
+| Component | Entry point |
+|:--|:--|
+| Sensory transduction | [`flyterm/sensory.py`](flyterm/sensory.py) |
+| Neural controller and memory | [`vendor/stonkfly/stonkfly/neural/`](vendor/stonkfly/stonkfly/neural/) |
+| Run journal and replay | [`flyterm/records.py`](flyterm/records.py), [`flyterm/live.py`](flyterm/live.py) |
+| Trading and capital accounting | [`contracts/src/v03/`](contracts/src/v03/) |
+| Immediate recovery variants | [`contracts/src/v04/`](contracts/src/v04/) |
+| Operator planning and reconciliation | [`flyterm/ops/`](flyterm/ops/) |
+
+1. **MaleCNS v1.0.** [Janelia project and dataset](https://male-cns.janelia.org/). Anatomical reconstruction and release provenance; CC BY dataset terms.
+2. **Stonkfly.** [Upstream retained-connectome implementation](https://github.com/nftechie/stonkfly). Neural runtime and experimental memory mechanism; MIT.
+3. **Huang, C., Luo, J., Woo, S. J., et al.** *Dopamine-mediated interactions between short- and long-term memory dynamics.* Nature **634**, 1141–1149 (2024). [doi:10.1038/s41586-024-07819-w](https://doi.org/10.1038/s41586-024-07819-w).
+
+Fly is an independent project. Dataset, protocol and institution names identify sources and dependencies, not affiliations or endorsements. Project source is MIT; upstream and dataset terms are preserved in [Provenance](docs/PROVENANCE.md) and [Disclosure](DISCLOSURE.md).

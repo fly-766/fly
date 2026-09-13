@@ -1,0 +1,284 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1440" viewBox="0 0 2000 1440" role="img" aria-labelledby="title desc">
+<title id="title">Fly: connectome-driven control under verifiable capital constraints</title>
+<desc id="desc">Four-panel schematic showing completed-candle visual encoding, a retained spiking connectome with restricted plasticity, long-flat execution, and principal-versus-profit accounting. Connectivity is schematic, not anatomical data. No performance results are plotted.</desc>
+<rect width="2000" height="1440" fill="#ffffff"/>
+<text x="70" y="132" fill="#172c3a" font-family="Georgia,DejaVu Serif,serif" font-size="102" font-weight="700" text-anchor="start">FLY</text>
+<text x="1930" y="72" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="700" text-anchor="end">TECHNICAL METHODS</text>
+<text x="1930" y="106" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="20" font-weight="400" text-anchor="end">CONNECTOME × CAPITAL</text>
+<text x="70" y="190" fill="#172c3a" font-family="Georgia,DejaVu Serif,serif" font-size="39" font-weight="400" text-anchor="start">Neural dynamics. Constrained action. Verifiable state.</text>
+<line x1="70" y1="224" x2="1930" y2="224" stroke="#172c3a" stroke-width="2"/>
+<text x="70" y="279" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="39" font-weight="700" text-anchor="start">166,700</text>
+<text x="70" y="313" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="18" font-weight="700" text-anchor="start">RETAINED NEURONS</text>
+<text x="710" y="279" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="39" font-weight="700" text-anchor="start">25,582,938</text>
+<text x="710" y="313" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="18" font-weight="700" text-anchor="start">DIRECTED CONNECTIONS</text>
+<text x="1380" y="279" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="39" font-weight="700" text-anchor="start">500 ms</text>
+<text x="1380" y="313" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="18" font-weight="700" text-anchor="start">SIMULATED DECISION WINDOW</text>
+<rect x="70" y="352" width="900" height="417" fill="#ffffff" stroke="#d9e1e5" stroke-width="2"/>
+<text x="98" y="404" fill="#267e86" font-family="Georgia,DejaVu Serif,serif" font-size="39" font-weight="700" text-anchor="start">a</text>
+<text x="146" y="400" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="30" font-weight="700" text-anchor="start">Market-to-neural transduction</text>
+<text x="105" y="445" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="25" font-weight="400" text-anchor="start">Completed candles → normalized movement</text>
+<text x="105" y="491" fill="#172c3a" font-family="Georgia,DejaVu Serif,serif" font-size="32" font-weight="400" text-anchor="start">z(t) = log[p(t) / p(t−3)] / [√3 σ(t)]</text>
+<text x="105" y="527" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="21" font-weight="400" text-anchor="start">60-return volatility · 3-bar horizon · explicit deadband</text>
+<rect x="110" y="559" width="119" height="98" fill="#b0b0b0" stroke="#ffffff" stroke-width="0.5"/>
+<rect x="229" y="559" width="119" height="98" fill="#000000" stroke="#ffffff" stroke-width="0.5"/>
+<text x="229" y="695" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="19" font-weight="700" text-anchor="middle">NEGATIVE MOVE</text>
+<text x="229" y="731" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="400" text-anchor="middle">z = −0.75</text>
+<rect x="397" y="559" width="119" height="98" fill="#808080" stroke="#ffffff" stroke-width="0.5"/>
+<rect x="516" y="559" width="119" height="98" fill="#808080" stroke="#ffffff" stroke-width="0.5"/>
+<text x="516" y="695" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="19" font-weight="700" text-anchor="middle">NEUTRAL</text>
+<text x="516" y="731" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="400" text-anchor="middle">z = 0</text>
+<rect x="684" y="559" width="119" height="98" fill="#000000" stroke="#ffffff" stroke-width="0.5"/>
+<rect x="803" y="559" width="119" height="98" fill="#b0b0b0" stroke="#ffffff" stroke-width="0.5"/>
+<text x="803" y="695" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="19" font-weight="700" text-anchor="middle">POSITIVE MOVE</text>
+<text x="803" y="731" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="400" text-anchor="middle">z = +0.75</text>
+<rect x="1030" y="352" width="900" height="417" fill="#ffffff" stroke="#d9e1e5" stroke-width="2"/>
+<text x="1058" y="404" fill="#267e86" font-family="Georgia,DejaVu Serif,serif" font-size="39" font-weight="700" text-anchor="start">b</text>
+<text x="1106" y="400" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="30" font-weight="700" text-anchor="start">Retained graph &amp; candidate plasticity</text>
+<line x1="1271.2462713208608" y1="472.69868638506375" x2="1387.8039992441354" y2="602.6312362803112" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1109.9172010135367" y1="479.32269910487827" x2="1184.0447111612452" y2="515.3087424566492" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1130.5472055756459" y1="470.6548166195804" x2="1271.2462713208608" y2="472.69868638506375" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1130.5472055756459" y1="470.6548166195804" x2="1276.3562174592514" y2="572.947723066584" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1218.9834076094496" y1="501.17210877239376" x2="1350.4097355579245" y2="516.4295135119364" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1345.537480881381" y1="497.16119048619686" x2="1395.1848717826347" y2="504.015046563805" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1095.1043396435286" y1="535.54501233333" x2="1266.912933817902" y2="618.3192456820469" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1283.4246321452001" y1="447.6461604510963" x2="1384.5043263660918" y2="534.829782746587" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1112.5909715657858" y1="535.5555766850099" x2="1257.9724774604672" y2="574.2235101372609" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1296.688106394145" y1="436.678286401416" x2="1387.8039992441354" y2="602.6312362803112" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1130.5472055756459" y1="470.6548166195804" x2="1230.2993062182745" y2="553.9189332750777" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1187.99106366863" y1="511.65851995489857" x2="1395.6963041120896" y2="532.937717033" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1267.6830135705586" y1="474.7540070028433" x2="1389.0516561107497" y2="477.88367937322664" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1288.1121664622815" y1="493.16252965593156" x2="1384.5043263660918" y2="534.829782746587" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1312.3103142898556" y1="557.7478635215866" x2="1350.4097355579245" y2="516.4295135119364" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1135.126660707434" y1="546.3122121231961" x2="1345.537480881381" y2="497.16119048619686" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1266.912933817902" y1="618.3192456820469" x2="1377.8185866352624" y2="591.602498118133" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1135.126660707434" y1="546.3122121231961" x2="1256.4988547306339" y2="605.177662931917" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1288.571511971388" y1="566.9684262621458" x2="1370.1774714591436" y2="594.5701470912886" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1289.4757947540559" y1="602.4298586881728" x2="1395.1848717826347" y2="504.015046563805" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1289.4757947540559" y1="602.4298586881728" x2="1377.8185866352624" y2="591.602498118133" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1319.5186927718728" y1="530.2249641052438" x2="1358.6316511503421" y2="550.3011587215719" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1133.3178746077372" y1="601.1823587876073" x2="1289.4757947540559" y2="602.4298586881728" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1119.6886571145237" y1="559.6520281206984" x2="1345.537480881381" y2="497.16119048619686" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1135.126660707434" y1="546.3122121231961" x2="1218.9834076094496" y2="501.17210877239376" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1242.2834265635602" y1="604.630706084871" x2="1389.0516561107497" y2="477.88367937322664" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1119.6886571145237" y1="559.6520281206984" x2="1218.9834076094496" y2="501.17210877239376" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1109.9172010135367" y1="479.32269910487827" x2="1232.7548178038664" y2="534.3503104897189" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1234.9998881582774" y1="437.32798977886705" x2="1377.8185866352624" y2="591.602498118133" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1119.6886571145237" y1="559.6520281206984" x2="1312.3103142898556" y2="557.7478635215866" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1132.8928060442267" y1="524.8219395599873" x2="1197.29339449996" y2="496.5782511759202" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1105.9202601375355" y1="508.20151833668325" x2="1283.4750329364279" y2="496.028061455296" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1345.537480881381" y1="497.16119048619686" x2="1384.5043263660918" y2="534.829782746587" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1222.7605399862505" y1="634.4809363647856" x2="1387.8039992441354" y2="602.6312362803112" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1155.360174622235" y1="499.92402962749605" x2="1244.7698492091513" y2="504.3991541827154" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1271.2462713208608" y1="472.69868638506375" x2="1372.2322292830854" y2="468.331968024327" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1218.9834076094496" y1="501.17210877239376" x2="1372.2322292830854" y2="468.331968024327" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1112.5909715657858" y1="535.5555766850099" x2="1320.7282032270261" y2="531.5890334275409" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1279.1157853216089" y1="458.33836350438014" x2="1370.1774714591436" y2="594.5701470912886" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1234.9998881582774" y1="437.32798977886705" x2="1370.1774714591436" y2="594.5701470912886" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1109.9172010135367" y1="479.32269910487827" x2="1315.1217888304393" y2="497.8746976799522" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1230.2993062182745" y1="553.9189332750777" x2="1384.5043263660918" y2="534.829782746587" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1129.2724888730802" y1="605.0252942490597" x2="1296.688106394145" y2="436.678286401416" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1204.4142827050407" y1="501.76519073509354" x2="1409.6836626401011" y2="582.0366535931655" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1345.4370198737572" y1="558.266073520328" x2="1357.7642334160125" y2="516.510311537592" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1130.5472055756459" y1="470.6548166195804" x2="1266.912933817902" y2="618.3192456820469" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1112.5909715657858" y1="535.5555766850099" x2="1310.6754147067334" y2="642.4083201731507" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1320.7282032270261" y1="531.5890334275409" x2="1399.7583554632874" y2="466.81623226781966" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1129.2724888730802" y1="605.0252942490597" x2="1320.7282032270261" y2="531.5890334275409" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1312.3103142898556" y1="557.7478635215866" x2="1395.1848717826347" y2="504.015046563805" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1234.9998881582774" y1="437.32798977886705" x2="1372.50409524228" y2="508.4768350196401" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1204.4142827050407" y1="501.76519073509354" x2="1395.6963041120896" y2="532.937717033" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1276.3562174592514" y1="572.947723066584" x2="1358.6316511503421" y2="550.3011587215719" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1135.126660707434" y1="546.3122121231961" x2="1234.9998881582774" y2="437.32798977886705" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1271.2462713208608" y1="472.69868638506375" x2="1370.1774714591436" y2="594.5701470912886" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1197.29339449996" y1="496.5782511759202" x2="1384.5043263660918" y2="534.829782746587" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1242.2834265635602" y1="604.630706084871" x2="1395.6963041120896" y2="532.937717033" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1195.261516281853" y1="558.944575157702" x2="1409.6836626401011" y2="582.0366535931655" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1135.126660707434" y1="546.3122121231961" x2="1296.688106394145" y2="436.678286401416" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1257.9724774604672" y1="574.2235101372609" x2="1357.7642334160125" y2="516.510311537592" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1135.126660707434" y1="546.3122121231961" x2="1296.688106394145" y2="436.678286401416" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1288.1121664622815" y1="493.16252965593156" x2="1357.7642334160125" y2="516.510311537592" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1105.9202601375355" y1="508.20151833668325" x2="1195.261516281853" y2="558.944575157702" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1266.912933817902" y1="618.3192456820469" x2="1387.8039992441354" y2="602.6312362803112" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1132.8928060442267" y1="524.8219395599873" x2="1320.7282032270261" y2="531.5890334275409" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1288.571511971388" y1="566.9684262621458" x2="1395.6963041120896" y2="532.937717033" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1289.4757947540559" y1="602.4298586881728" x2="1395.1848717826347" y2="504.015046563805" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1095.1043396435286" y1="535.54501233333" x2="1256.4988547306339" y2="605.177662931917" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1129.2724888730802" y1="605.0252942490597" x2="1197.3524368607304" y2="480.95833145112726" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1187.99106366863" y1="511.65851995489857" x2="1350.4097355579245" y2="516.4295135119364" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1266.912933817902" y1="618.3192456820469" x2="1387.8039992441354" y2="602.6312362803112" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1320.6993446576325" y1="568.7569281855554" x2="1357.7642334160125" y2="516.510311537592" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1112.5909715657858" y1="535.5555766850099" x2="1222.7605399862505" y2="634.4809363647856" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1132.8928060442267" y1="524.8219395599873" x2="1283.4750329364279" y2="496.028061455296" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1109.9172010135367" y1="479.32269910487827" x2="1197.3524368607304" y2="480.95833145112726" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1289.4757947540559" y1="602.4298586881728" x2="1358.6316511503421" y2="550.3011587215719" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1132.8928060442267" y1="524.8219395599873" x2="1204.4142827050407" y2="501.76519073509354" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1204.4142827050407" y1="501.76519073509354" x2="1370.1774714591436" y2="594.5701470912886" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1288.1121664622815" y1="493.16252965593156" x2="1370.1774714591436" y2="594.5701470912886" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1319.5186927718728" y1="530.2249641052438" x2="1384.5043263660918" y2="534.829782746587" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1109.9172010135367" y1="479.32269910487827" x2="1195.261516281853" y2="558.944575157702" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1105.9202601375355" y1="508.20151833668325" x2="1256.4988547306339" y2="605.177662931917" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1257.9724774604672" y1="574.2235101372609" x2="1357.7642334160125" y2="516.510311537592" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1133.3178746077372" y1="601.1823587876073" x2="1319.5186927718728" y2="530.2249641052438" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1204.4142827050407" y1="501.76519073509354" x2="1395.1848717826347" y2="504.015046563805" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1204.4142827050407" y1="501.76519073509354" x2="1395.6963041120896" y2="532.937717033" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1105.9202601375355" y1="508.20151833668325" x2="1288.571511971388" y2="566.9684262621458" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1129.2724888730802" y1="605.0252942490597" x2="1232.7548178038664" y2="534.3503104897189" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1319.5186927718728" y1="530.2249641052438" x2="1358.6316511503421" y2="550.3011587215719" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1218.9834076094496" y1="501.17210877239376" x2="1409.6836626401011" y2="582.0366535931655" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1187.99106366863" y1="511.65851995489857" x2="1395.6963041120896" y2="532.937717033" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1105.9202601375355" y1="508.20151833668325" x2="1256.4988547306339" y2="605.177662931917" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1289.4757947540559" y1="602.4298586881728" x2="1372.2322292830854" y2="468.331968024327" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1105.9202601375355" y1="508.20151833668325" x2="1289.4757947540559" y2="602.4298586881728" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1232.7548178038664" y1="534.3503104897189" x2="1372.50409524228" y2="508.4768350196401" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1095.1043396435286" y1="535.54501233333" x2="1266.912933817902" y2="618.3192456820469" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1132.8928060442267" y1="524.8219395599873" x2="1288.1121664622815" y2="493.16252965593156" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1119.6886571145237" y1="559.6520281206984" x2="1283.4750329364279" y2="496.028061455296" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1095.1043396435286" y1="535.54501233333" x2="1320.7282032270261" y2="531.5890334275409" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1195.261516281853" y1="558.944575157702" x2="1372.50409524228" y2="508.4768350196401" stroke="#ccdce3" stroke-width="0.9"/>
+<line x1="1232.7548178038664" y1="534.3503104897189" x2="1296.688106394145" y2="436.678286401416" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1320.6993446576325" y1="568.7569281855554" x2="1244.7698492091513" y2="504.3991541827154" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1266.4944940612627" y1="580.914042362202" x2="1288.571511971388" y2="566.9684262621458" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1234.9998881582774" y1="437.32798977886705" x2="1320.7282032270261" y2="531.5890334275409" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1230.2993062182745" y1="553.9189332750777" x2="1256.4988547306339" y2="605.177662931917" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1312.3103142898556" y1="557.7478635215866" x2="1315.1217888304393" y2="497.8746976799522" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1315.1217888304393" y1="497.8746976799522" x2="1266.4944940612627" y2="580.914042362202" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1320.6993446576325" y1="568.7569281855554" x2="1204.4142827050407" y2="501.76519073509354" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1222.7605399862505" y1="634.4809363647856" x2="1244.7698492091513" y2="504.3991541827154" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1283.4750329364279" y1="496.028061455296" x2="1288.571511971388" y2="566.9684262621458" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1195.261516281853" y1="558.944575157702" x2="1315.1217888304393" y2="497.8746976799522" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1234.9998881582774" y1="437.32798977886705" x2="1204.4142827050407" y2="501.76519073509354" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1204.4142827050407" y1="501.76519073509354" x2="1276.3562174592514" y2="572.947723066584" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1257.9724774604672" y1="574.2235101372609" x2="1312.3103142898556" y2="557.7478635215866" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1283.4246321452001" y1="447.6461604510963" x2="1345.4370198737572" y2="558.266073520328" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1256.4988547306339" y1="605.177662931917" x2="1230.2993062182745" y2="553.9189332750777" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1320.6993446576325" y1="568.7569281855554" x2="1197.3524368607304" y2="480.95833145112726" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1218.9834076094496" y1="501.17210877239376" x2="1320.7282032270261" y2="531.5890334275409" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1345.537480881381" y1="497.16119048619686" x2="1244.7698492091513" y2="504.3991541827154" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1184.0447111612452" y1="515.3087424566492" x2="1266.912933817902" y2="618.3192456820469" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1296.688106394145" y1="436.678286401416" x2="1271.2462713208608" y2="472.69868638506375" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1197.29339449996" y1="496.5782511759202" x2="1222.7605399862505" y2="634.4809363647856" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1195.261516281853" y1="558.944575157702" x2="1271.2462713208608" y2="472.69868638506375" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1204.4142827050407" y1="501.76519073509354" x2="1320.6993446576325" y2="568.7569281855554" stroke="#d5e0e7" stroke-width="0.8"/>
+<line x1="1288.571511971388" y1="566.9684262621458" x2="1244.7698492091513" y2="504.3991541827154" stroke="#d5e0e7" stroke-width="0.8"/>
+<circle cx="1155.360174622235" cy="499.92402962749605" r="4.4" fill="#547d9b"/>
+<circle cx="1132.8928060442267" cy="524.8219395599873" r="4.4" fill="#547d9b"/>
+<circle cx="1105.9202601375355" cy="508.20151833668325" r="4.4" fill="#547d9b"/>
+<circle cx="1112.5909715657858" cy="535.5555766850099" r="4.4" fill="#547d9b"/>
+<circle cx="1133.3178746077372" cy="601.1823587876073" r="4.4" fill="#547d9b"/>
+<circle cx="1129.2724888730802" cy="605.0252942490597" r="4.4" fill="#547d9b"/>
+<circle cx="1135.126660707434" cy="546.3122121231961" r="4.4" fill="#547d9b"/>
+<circle cx="1119.3518252859412" cy="482.2778578474732" r="4.4" fill="#547d9b"/>
+<circle cx="1095.1043396435286" cy="535.54501233333" r="4.4" fill="#547d9b"/>
+<circle cx="1119.6886571145237" cy="559.6520281206984" r="4.4" fill="#547d9b"/>
+<circle cx="1130.5472055756459" cy="470.6548166195804" r="4.4" fill="#547d9b"/>
+<circle cx="1109.9172010135367" cy="479.32269910487827" r="4.4" fill="#547d9b"/>
+<circle cx="1319.5186927718728" cy="530.2249641052438" r="4.4" fill="#547d9b"/>
+<circle cx="1271.2462713208608" cy="472.69868638506375" r="4.4" fill="#547d9b"/>
+<circle cx="1204.4142827050407" cy="501.76519073509354" r="4.4" fill="#547d9b"/>
+<circle cx="1257.9724774604672" cy="574.2235101372609" r="4.4" fill="#547d9b"/>
+<circle cx="1195.261516281853" cy="558.944575157702" r="4.4" fill="#547d9b"/>
+<circle cx="1218.9834076094496" cy="501.17210877239376" r="4.4" fill="#547d9b"/>
+<circle cx="1244.7698492091513" cy="504.3991541827154" r="4.4" fill="#547d9b"/>
+<circle cx="1289.4757947540559" cy="602.4298586881728" r="4.4" fill="#547d9b"/>
+<circle cx="1283.4750329364279" cy="496.028061455296" r="4.4" fill="#547d9b"/>
+<circle cx="1288.571511971388" cy="566.9684262621458" r="4.4" fill="#547d9b"/>
+<circle cx="1312.3103142898556" cy="557.7478635215866" r="4.4" fill="#547d9b"/>
+<circle cx="1197.29339449996" cy="496.5782511759202" r="4.4" fill="#547d9b"/>
+<circle cx="1242.2834265635602" cy="604.630706084871" r="4.4" fill="#547d9b"/>
+<circle cx="1256.4988547306339" cy="605.177662931917" r="4.4" fill="#547d9b"/>
+<circle cx="1279.1157853216089" cy="458.33836350438014" r="4.4" fill="#547d9b"/>
+<circle cx="1266.4944940612627" cy="580.914042362202" r="4.4" fill="#547d9b"/>
+<circle cx="1283.4246321452001" cy="447.6461604510963" r="4.4" fill="#547d9b"/>
+<circle cx="1288.1121664622815" cy="493.16252965593156" r="4.4" fill="#547d9b"/>
+<circle cx="1187.99106366863" cy="511.65851995489857" r="4.4" fill="#547d9b"/>
+<circle cx="1197.3524368607304" cy="480.95833145112726" r="4.4" fill="#547d9b"/>
+<circle cx="1310.6754147067334" cy="642.4083201731507" r="4.4" fill="#547d9b"/>
+<circle cx="1320.6993446576325" cy="568.7569281855554" r="4.4" fill="#547d9b"/>
+<circle cx="1345.4370198737572" cy="558.266073520328" r="4.4" fill="#547d9b"/>
+<circle cx="1234.9998881582774" cy="437.32798977886705" r="4.4" fill="#547d9b"/>
+<circle cx="1296.688106394145" cy="436.678286401416" r="4.4" fill="#547d9b"/>
+<circle cx="1184.0447111612452" cy="515.3087424566492" r="4.4" fill="#547d9b"/>
+<circle cx="1267.6830135705586" cy="474.7540070028433" r="4.4" fill="#547d9b"/>
+<circle cx="1320.7282032270261" cy="531.5890334275409" r="4.4" fill="#547d9b"/>
+<circle cx="1276.3562174592514" cy="572.947723066584" r="4.4" fill="#547d9b"/>
+<circle cx="1230.2993062182745" cy="553.9189332750777" r="4.4" fill="#547d9b"/>
+<circle cx="1345.537480881381" cy="497.16119048619686" r="4.4" fill="#547d9b"/>
+<circle cx="1273.9423965608069" cy="579.4686915519396" r="4.4" fill="#547d9b"/>
+<circle cx="1232.7548178038664" cy="534.3503104897189" r="4.4" fill="#547d9b"/>
+<circle cx="1192.4940447834451" cy="514.6762348919723" r="4.4" fill="#547d9b"/>
+<circle cx="1266.912933817902" cy="618.3192456820469" r="4.4" fill="#547d9b"/>
+<circle cx="1315.1217888304393" cy="497.8746976799522" r="4.4" fill="#547d9b"/>
+<circle cx="1222.7605399862505" cy="634.4809363647856" r="4.4" fill="#547d9b"/>
+<circle cx="1399.7583554632874" cy="466.81623226781966" r="4.4" fill="#547d9b"/>
+<circle cx="1375.2036840522119" cy="490.11769588858533" r="4.4" fill="#547d9b"/>
+<circle cx="1372.2322292830854" cy="468.331968024327" r="4.4" fill="#547d9b"/>
+<circle cx="1372.50409524228" cy="508.4768350196401" r="4.4" fill="#547d9b"/>
+<circle cx="1377.8185866352624" cy="591.602498118133" r="4.4" fill="#547d9b"/>
+<circle cx="1389.0516561107497" cy="477.88367937322664" r="4.4" fill="#547d9b"/>
+<circle cx="1350.4097355579245" cy="516.4295135119364" r="4.4" fill="#547d9b"/>
+<circle cx="1409.6836626401011" cy="582.0366535931655" r="4.4" fill="#547d9b"/>
+<circle cx="1370.1774714591436" cy="594.5701470912886" r="4.4" fill="#547d9b"/>
+<circle cx="1395.1848717826347" cy="504.015046563805" r="4.4" fill="#547d9b"/>
+<circle cx="1395.6963041120896" cy="532.937717033" r="4.4" fill="#547d9b"/>
+<circle cx="1357.7642334160125" cy="516.510311537592" r="4.4" fill="#547d9b"/>
+<circle cx="1387.8039992441354" cy="602.6312362803112" r="4.4" fill="#547d9b"/>
+<circle cx="1358.6316511503421" cy="550.3011587215719" r="4.4" fill="#547d9b"/>
+<circle cx="1384.5043263660918" cy="534.829782746587" r="4.4" fill="#547d9b"/>
+<text x="1251" y="694" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="18" font-weight="700" text-anchor="middle">SCHEMATIC CONNECTIVITY</text>
+<line x1="1435" y1="520" x2="1480" y2="520" stroke="#547d9b" stroke-width="2.5"/>
+<line x1="1480" y1="520" x2="1468.4690660038693" y2="526.0031292820393" stroke="#547d9b" stroke-width="2.5"/>
+<line x1="1480" y1="520" x2="1468.4690660038693" y2="513.9968707179607" stroke="#547d9b" stroke-width="2.5"/>
+<rect x="1497" y="438" width="390" height="114" fill="#f4f8fa" stroke="#d9e1e5" stroke-width="2"/>
+<text x="1520" y="477" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="26" font-weight="700" text-anchor="start">Spiking state</text>
+<text x="1520" y="516" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="400" text-anchor="start">0.1 ms event schedule</text>
+<rect x="1497" y="582" width="390" height="145" fill="#fcf8f1" stroke="#e9dac5" stroke-width="2"/>
+<text x="1520" y="622" fill="#b6813c" font-family="Arial,DejaVu Sans,sans-serif" font-size="26" font-weight="700" text-anchor="start">Restricted plasticity</text>
+<text x="1520" y="664" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="24" font-weight="400" text-anchor="start">KC → MBON07 / 11</text>
+<text x="1520" y="700" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="400" text-anchor="start">0.1 ≤ W / W(base) ≤ 2</text>
+<line x1="1655" y1="554" x2="1655" y2="579" stroke="#b6813c" stroke-width="2.5"/>
+<line x1="1655" y1="579" x2="1648.9968707179607" y2="567.4690660038693" stroke="#b6813c" stroke-width="2.5"/>
+<line x1="1655" y1="579" x2="1661.0031292820393" y2="567.4690660038693" stroke="#b6813c" stroke-width="2.5"/>
+<rect x="70" y="811" width="900" height="438" fill="#ffffff" stroke="#d9e1e5" stroke-width="2"/>
+<text x="98" y="863" fill="#267e86" font-family="Georgia,DejaVu Serif,serif" font-size="39" font-weight="700" text-anchor="start">c</text>
+<text x="146" y="859" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="30" font-weight="700" text-anchor="start">Contract-constrained execution</text>
+<text x="105" y="904" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="25" font-weight="400" text-anchor="start">Neural proposal ≠ execution authorization</text>
+<rect x="115" y="955" width="223" height="96" fill="#f4f8fa" stroke="#d9e1e5" stroke-width="2"/>
+<text x="226" y="1015" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="34" font-weight="700" text-anchor="middle">FLAT</text>
+<rect x="705" y="955" width="223" height="96" fill="#edf6f5" stroke="#b7d8d5" stroke-width="2"/>
+<text x="816" y="1015" fill="#267e86" font-family="Arial,DejaVu Sans,sans-serif" font-size="34" font-weight="700" text-anchor="middle">LONG</text>
+<line x1="355" y1="980" x2="687" y2="980" stroke="#267e86" stroke-width="2.5"/>
+<line x1="687" y1="980" x2="675.4690660038693" y2="986.0031292820393" stroke="#267e86" stroke-width="2.5"/>
+<line x1="687" y1="980" x2="675.4690660038693" y2="973.9968707179607" stroke="#267e86" stroke-width="2.5"/>
+<text x="519" y="959" fill="#267e86" font-family="Arial,DejaVu Sans,sans-serif" font-size="21" font-weight="400" text-anchor="middle">BUY · bounded entry</text>
+<line x1="687" y1="1040" x2="355" y2="1040" stroke="#267e86" stroke-width="2.5"/>
+<line x1="355" y1="1040" x2="366.53093399613067" y2="1033.9968707179607" stroke="#267e86" stroke-width="2.5"/>
+<line x1="355" y1="1040" x2="366.53093399613067" y2="1046.0031292820393" stroke="#267e86" stroke-width="2.5"/>
+<text x="519" y="1077" fill="#267e86" font-family="Arial,DejaVu Sans,sans-serif" font-size="21" font-weight="400" text-anchor="middle">SELL · reduce only</text>
+<line x1="108" y1="1111" x2="931" y2="1111" stroke="#d9e1e5" stroke-width="2"/>
+<text x="110" y="1154" fill="#172c3a" font-family="Georgia,DejaVu Serif,serif" font-size="28" font-weight="400" text-anchor="start">Entry budget ≤ min(M, 100E / 101)</text>
+<text x="110" y="1195" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="22" font-weight="400" text-anchor="start">Sequence · freshness · exposure · pending settlement</text>
+<text x="110" y="1227" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="21" font-weight="400" text-anchor="start">HOLD or veto: no new position. No short entry.</text>
+<rect x="1030" y="811" width="900" height="438" fill="#ffffff" stroke="#d9e1e5" stroke-width="2"/>
+<text x="1058" y="863" fill="#267e86" font-family="Georgia,DejaVu Serif,serif" font-size="39" font-weight="700" text-anchor="start">d</text>
+<text x="1106" y="859" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="30" font-weight="700" text-anchor="start">Capital accounting &amp; profit return</text>
+<text x="1065" y="904" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="24" font-weight="400" text-anchor="start">Principal, execution equity and profit remain distinct</text>
+<rect x="1068" y="951" width="240" height="89" fill="#f4f8fa" stroke="#d9e1e5" stroke-width="2"/>
+<text x="1188" y="1007" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="25" font-weight="700" text-anchor="middle">Tax principal</text>
+<rect x="1360" y="951" width="240" height="89" fill="#f4f8fa" stroke="#d9e1e5" stroke-width="2"/>
+<text x="1480" y="1007" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="25" font-weight="700" text-anchor="middle">Account equity</text>
+<rect x="1652" y="951" width="240" height="89" fill="#f4f8fa" stroke="#d9e1e5" stroke-width="2"/>
+<text x="1772" y="1007" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="25" font-weight="700" text-anchor="middle">Eligible profit</text>
+<line x1="1315" y1="994" x2="1351" y2="994" stroke="#267e86" stroke-width="2.5"/>
+<line x1="1351" y1="994" x2="1339.4690660038693" y2="1000.0031292820393" stroke="#267e86" stroke-width="2.5"/>
+<line x1="1351" y1="994" x2="1339.4690660038693" y2="987.9968707179607" stroke="#267e86" stroke-width="2.5"/>
+<line x1="1607" y1="994" x2="1643" y2="994" stroke="#267e86" stroke-width="2.5"/>
+<line x1="1643" y1="994" x2="1631.4690660038693" y2="1000.0031292820393" stroke="#267e86" stroke-width="2.5"/>
+<line x1="1643" y1="994" x2="1631.4690660038693" y2="987.9968707179607" stroke="#267e86" stroke-width="2.5"/>
+<text x="1065" y="1098" fill="#172c3a" font-family="Georgia,DejaVu Serif,serif" font-size="28" font-weight="400" text-anchor="start">P = max(0, min(N − D − O, E − B − O))</text>
+<text x="1065" y="1140" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="400" text-anchor="start">Evaluated only when flat, settled and eligible.</text>
+<line x1="1068" y1="1169" x2="1890" y2="1169" stroke="#d9e1e5" stroke-width="2"/>
+<text x="1065" y="1213" fill="#267e86" font-family="Arial,DejaVu Sans,sans-serif" font-size="26" font-weight="700" text-anchor="start">Profit return → budgeted token repurchase</text>
+<line x1="70" y1="1305" x2="1930" y2="1305" stroke="#172c3a" stroke-width="2"/>
+<text x="70" y="1352" fill="#172c3a" font-family="Arial,DejaVu Sans,sans-serif" font-size="22" font-weight="700" text-anchor="start">REPRODUCIBILITY</text>
+<text x="414" y="1352" fill="#267e86" font-family="Arial,DejaVu Sans,sans-serif" font-size="26" font-weight="400" text-anchor="start">source  →  input  →  neural state  →  proposal  →  settlement</text>
+<text x="70" y="1405" fill="#63737d" font-family="Arial,DejaVu Sans,sans-serif" font-size="20" font-weight="400" text-anchor="start">Architecture schematic · Not an anatomical rendering or a performance result · Fly technical methods</text>
+</svg>
