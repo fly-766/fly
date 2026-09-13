@@ -1,0 +1,26 @@
+{
+  "schema": "fly-path-demonstration/v1",
+  "role": "path-demonstration",
+  "officialProduct": false,
+  "note": "On-chain demonstration that wGOOGLx can be converted to native USDC on X Layer and minted on HyperEVM through Circle CCTP V2. These transactions are not tax from the published test token.",
+  "xlayer": {
+    "chainId": 196,
+    "domain": 37,
+    "wgooglx": "0xf8c5308F80E459bb53d9EbE689854d9cBb2Caa6f",
+    "usdc": "0xB6CEceAB302E2E4948951eE7843FC24E92933061",
+    "tokenMessengerV2": "0x28b5a0e9C621a5BadaA536219b3a228C8168cf5d"
+  },
+  "hyper": {
+    "chainId": 999,
+    "domain": 19,
+    "usdc": "0xb88339CB7199b77E23DB6E890353E22632Ba630f",
+    "messageTransmitterV2": "0x81D40F21F12A8F0E3252Bccb954D722d4c464B64"
+  },
+  "transactions": {
+    "okbToWgooglx": "0xe169d96917767ec8addacf41ca338db8fe4bc8d400c629841c0e192d0cf01015",
+    "wgooglxToUsdc": "0x91873b7cb8f4ae685440479aff91caa9a3c40514365ac6f61be08fbc7341777e",
+    "usdcApproveMessenger": "0x34fdc6ea6f586c4efe37fe3ea9a1013700e714022e9b02648e0f7f9fefa1c81c",
+    "cctpDepositForBurn": "0xd14e6b9be8005e23092344e6a8b927978ce33a1faf64ce174c5d73d5b29aa49c",
+    "hyperReceiveMessage": "0xd16b68902c6cd547afcd4fe069fc32434b371a3690bf3561f3c070becc5d230f"
+  }
+}

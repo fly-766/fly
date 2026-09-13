@@ -1,0 +1,17 @@
+{
+  "schema": "flyterm-launch/v04-googl",
+  "name": "FlyTerm",
+  "symbol": "FLY",
+  "taxBuyBps": 100,
+  "taxSellBps": 100,
+  "metadataURI": null,
+  "graduationProtectionDays": 7,
+  "templateId": 0,
+  "dividendBps": 0,
+  "creatorBps": 10000,
+  "quote": "0xf8c5308F80E459bb53d9EbE689854d9cBb2Caa6f",
+  "quoteSymbol": "wGOOGLx",
+  "firstBuy": null,
+  "status": "webpage self-launch; tax 1/1 to creator; hop wGOOGLx to OKB to USD then Hyper; first-buy and anti-snipe left to the form",
+  "liveEnabled": false
+}

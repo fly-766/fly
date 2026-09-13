@@ -1,0 +1,41 @@
+{
+  "schema": "flyterm-ignix-instance/v1",
+  "role": "test-instance",
+  "officialProduct": false,
+  "note": "This is a parameter-and-claim test token, not the official FlyTerm issue.",
+  "chainId": 196,
+  "chainName": "X Layer",
+  "rpcPublic": "https://rpc.xlayer.tech",
+  "explorerToken": "https://www.okx.com/web3/explorer/xlayer/token/",
+  "explorerTx": "https://www.okx.com/web3/explorer/xlayer/tx/",
+  "explorerAddress": "https://www.okx.com/web3/explorer/xlayer/address/",
+  "ignixApi": "https://api.ignix.bot/v1/launches/",
+  "manager": "0x96b51c57e5346d0c0198899243cf851d1e23c309",
+  "token": "0xbf273d796a2eb31ac20015dcdc861b23df30eeee",
+  "name": "122",
+  "symbol": "1221",
+  "creator": "0xD3050fbDd30bA35397E9b2FCf028978b85472B11",
+  "vault": "0x6248a016d7ed2dfac1560bf1e15da39b440b5531",
+  "quote": "0xf8c5308F80E459bb53d9EbE689854d9cBb2Caa6f",
+  "quoteSymbol": "wGOOGLx",
+  "templateId": 0,
+  "taxBuyBps": 100,
+  "taxSellBps": 100,
+  "dividendBps": 0,
+  "graduationQuoteWei": "20000000000000000000",
+  "createTx": "0x5138e600a6e7124a79194f78cdf96fa15a53e3aebf0d4327a536fca453447d91",
+  "syncTx": "0x5a23203b9de579eed1f7425dcd417ebf92813939c095c96f07a80ac7d1c1ce7b",
+  "claimTx": "0xf7de32028e30e344458e33a93fc2f5f9e5030bdbda5417007f3feea9b15e4d52",
+  "hyperCanary": {
+    "scope": "Separate Hyper trading/exit tests, not this IGNIX token",
+    "account": "0xEA39B1BcB78bc8d65fa01ada1b93337ef03273dE",
+    "buy": "0x9d574c2a909f49e005a965207d0697a900c45d790ce6b55dfd4c24fce00091ca",
+    "sell": "0x566801abbe0e5376ad2d1917a3d41f329bc42e11aa2be890a2570e178df66be4",
+    "principalReturn": "0x75a69195e2fa7055a712fbe9455518df207aeed5f094a53789deb2819ec65b2d"
+  },
+  "notYetLive": [
+    "Official token launch",
+    "Tax from this test token bridged as HyperEVM principal",
+    "Profit buyback of this test token"
+  ]
+}

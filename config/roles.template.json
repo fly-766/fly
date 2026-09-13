@@ -1,0 +1,12 @@
+{
+  "xlayerDeployer": null,
+  "xlayerNonce": null,
+  "hyperDeployer": null,
+  "hyperNonce": null,
+  "modelSigner": null,
+  "settlementSigner": null,
+  "guardian": null,
+  "recoveryBeneficiary": null,
+  "keeper": null,
+  "creator": null
+}

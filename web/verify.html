@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fly · verify</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="masthead"><a class="brand" href="/">▞ FLY <span class="edition">LAB / VERIFY</span></a><nav aria-label="Primary"><a href="/#observatory">Observatory</a><a href="/#treasury">Route</a><a href="/verify.html" aria-current="page">Verify</a></nav><span class="release">READ-ONLY</span></header>
+<main class="manual">
+  <p class="eyebrow">PUBLIC CHECKS / TEST INSTANCE</p>
+  <h1>Check the chain,<br><span>not this page.</span></h1>
+  <p>The pinned token is a <strong>parameter test</strong>, not the official product. Addresses and hashes are in <a href="https://github.com/fly-766/fly/blob/main/VERIFICATION.md">VERIFICATION.md</a> and <code>config/ignix-instance.json</code>.</p>
+  <p id="live-flag">Reading on-chain fields…</p>
+  <h2>What the chain reports</h2>
+  <table class="record-table" id="check-table"><thead><tr><th>Field</th><th>Value</th><th>Matches pin</th></tr></thead><tbody></tbody></table>
+  <h2>Pinned links</h2>
+  <ul id="link-list"></ul>
+  <h2>Not yet live</h2>
+  <ul id="missing-list"></ul>
+  <p><a href="/">← Observatory</a> · <a href="https://github.com/fly-766/fly">Source</a></p>
+</main>
+<script type="module">
+const rows=(s)=>[
+  ['Role', s.officialProduct?'Official product':'Test instance', !s.officialProduct],
+  ['Token', s.token||'—', !!s.token],
+  ['Name / symbol', (s.name||'—')+' / '+(s.symbol||'—'), true],
+  ['Creator', s.creator||'—', s.checks?.creatorMatch!==false],
+  ['Vault', s.vault||'—', s.checks?.vaultTokenMatch!==false],
+  ['Quote', s.quote||'—', s.checks?.quoteIsWgooglx!==false],
+  ['Buy tax bps', s.taxBuyBps, s.checks?.taxBuy1pct!==false],
+  ['Sell tax bps', s.taxSellBps, s.checks?.taxSell1pct!==false],
+  ['Holder dividend bps', s.dividendBps, s.checks?.holderDividendZero!==false],
+  ['Graduated', s.pair && s.pair!=='0x0000000000000000000000000000000000000000'?'yes':'no', s.checks?.notGraduated!==false],
+  ['Vault quote wei', s.vaultQuoteWei||'—', true],
+  ['Creator accrued wei', s.creatorAccruedWei||'—', true],
+];
+function cell(v){const td=document.createElement('td');td.textContent=v==null?'—':String(v);return td;}
+try{
+  const s=await (await fetch('/api/launch',{cache:'no-store'})).json();
+  document.getElementById('live-flag').textContent=s.live?(s.ok?'On-chain fields match the pinned test instance.':'On-chain fields do not match the pin.'):'Live RPC failed; pinned addresses are shown first.';
+  const tb=document.querySelector('#check-table tbody');
+  for(const [k,v,ok] of rows(s)){
+    const tr=document.createElement('tr');
+    tr.append(cell(k),cell(v),cell(ok?'match':'review'));
+    tb.append(tr);
+  }
+  const ul=document.getElementById('link-list');
+  for(const [k,url] of Object.entries(s.links||{})){
+    const li=document.createElement('li');const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=k+' · '+url;li.append(a);ul.append(li);
+  }
+  const miss=document.getElementById('missing-list');
+  for(const item of (s.notYetLive||[])){const li=document.createElement('li');li.textContent=item;miss.append(li);}
+}catch{
+  document.getElementById('live-flag').textContent='The local verification API is unavailable. Use VERIFICATION.md.';
+}
+</script>
+</body>
+</html>

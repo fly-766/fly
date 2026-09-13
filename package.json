@@ -1,0 +1,16 @@
+{
+  "name": "fly",
+  "private": false,
+  "version": "0.4.2",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild web/src/app.js --bundle --splitting --format=esm --minify --legal-comments=linked --outdir=web/dist",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "three": "0.186.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12"
+  }
+}
