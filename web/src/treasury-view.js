@@ -23,9 +23,10 @@ function renderLaunch(s){
   const list=document.getElementById('verify-checks');
   if(!summary||!list)return;
   list.replaceChildren();
-  if(!s){summary.textContent='Verification API unavailable.';return;}
-  summary.textContent=s.officialProduct?'This is labeled an official product instance.':(s.live?(s.ok?'Test-token fields match the pin.':'Test-token fields do not match the pin.'):'Live RPC failed; pinned test addresses are shown first.');
-  if(token)token.textContent=s.token?('Test CA / '+s.token):'';
+  if(!s){summary.textContent='Instance API unavailable.';return;}
+  if(!s.published){summary.textContent='The official instance is not published in this source tree.';if(token)token.textContent='';return;}
+  summary.textContent=s.officialProduct?'Published official instance.':(s.live?(s.ok?'On-chain fields match the pin.':'On-chain fields do not match the pin.'):'Live RPC failed.');
+  if(token)token.textContent=s.token?('CA / '+s.token):'';
   const items=[
     ['Holder dividend is 0',s.checks?.holderDividendZero],
     ['Buy/sell tax 1% each',s.checks?.taxBuy1pct&&s.checks?.taxSell1pct],

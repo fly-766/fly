@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fly — connectome trading laboratory</title>
-  <meta name="description" content="An experimental fruit-fly connectome proposes trades. A narrow contract envelope decides what capital is allowed to do. Independent verification of the public X Layer test instance.">
+  <meta name="description" content="A fruit-fly connectome proposes. Contracts decide where money may go.">
   <meta name="color-scheme" content="light"><meta name="theme-color" content="#ececdf">
   <link rel="stylesheet" href="/style.css">
 </head>
@@ -11,13 +11,13 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="masthead">
   <a class="brand" href="/" aria-label="Fly home"><span class="brand-glyph" aria-hidden="true">▞</span> FLY<span class="edition">LAB / PUBLIC</span></a>
-  <nav aria-label="Primary"><a href="#observatory">Observatory</a><a href="#neural">Records</a><a href="#treasury">Route</a><a href="/verify.html">Verify</a></nav>
+  <nav aria-label="Primary"><a href="#observatory">Observatory</a><a href="#neural">Records</a><a href="#treasury">Route</a></nav>
   <span class="release"><i></i> XLAYER · READ-ONLY</span>
 </header>
 <main id="main">
   <section class="intro">
     <div><p class="eyebrow">AN UNLIKELY TRADER. A VERY REAL LEDGER.</p><h1>A fly.<br><span>A trading room.</span></h1></div>
-    <div class="intro-note"><span class="specimen">SPECIMEN / DROSOPHILA</span><p>A public MaleCNS connectome proposes.<br>Contracts decide where money may go.<br>Third parties can check the test instance without the page.</p><div class="route-tag"><b>X Layer</b><span>→</span><b>Hyperliquid</b></div></div>
+    <div class="intro-note"><span class="specimen">SPECIMEN / DROSOPHILA</span><p>A public MaleCNS connectome proposes.<br>Contracts decide where money may go.<br>Tax is principal. Profit, if any, buys back.</p><div class="route-tag"><b>X Layer</b><span>→</span><b>Hyperliquid</b></div></div>
   </section>
 
   <section class="observatory" id="observatory" aria-labelledby="observe-title">
@@ -74,19 +74,12 @@
     <div class="section-rule"><h2 id="treasury-title">03 / Funding route</h2><span id="funds-status">Not deployed · no mainnet funds in this viewer</span></div>
     <div class="treasury-heading"><h3>Tax is principal.<br><em>Profit, if any, buys back.</em></h3><p>Each unit of value has a fixed destination.<br>Ingress, inventory, and settlement are booked separately.</p></div>
     <div class="funds-ledger"><div><span>Cost-basis floor / USDC</span><strong id="principal-value">—</strong></div><div><span>Returnable profit / USDC</span><strong id="profit-value">—</strong></div><div><span>Returned, pending hop / USDC</span><strong id="return-value">—</strong></div><div><span>Sent to dead address / token</span><strong id="burn-value">—</strong></div></div>
-    <ol class="flow"><li><span class="step-no">01</span><h4>Tax to creator</h4><p>IGNIX System Vault<br>wGOOGLx quote · 1% buy / 1% sell</p><span class="stage">Webpage self-launch</span></li><li><span class="step-no">02</span><h4>Convert and bridge</h4><p>wGOOGLx → USD → native USDC<br>CCTP to HyperEVM as principal</p><span class="stage">Path demonstrated</span></li><li><span class="step-no">03</span><h4>Proposal, then policy</h4><p>Long or flat only<br>≤100 USDC per order</p><span class="stage">Live orders off</span></li><li><span class="step-no">04</span><h4>Net profit to buyback</h4><p>Return to wGOOGLx<br>then repurchase under caps</p><span class="stage">Not live on this token</span></li></ol>
-    <p id="escrow-note" class="escrow-note">Pre-graduation buybacks remain in a fixed contract; only after graduation do they move to the dead address.</p>
-    <div class="verify-strip" id="verify-strip">
-      <p class="eyebrow">TEST INSTANCE / VERIFY</p>
-      <p id="verify-summary">Reading on-chain fields for the test token…</p>
-      <p id="verify-token" class="token-address"></p>
-      <ul id="verify-checks"></ul>
-      <p><a href="/verify.html">Open the verification page ↗</a></p>
-    </div>
+    <ol class="flow"><li><span class="step-no">01</span><h4>Tax to creator</h4><p>System vault<br>wGOOGLx quote · 1% buy / 1% sell</p><span class="stage">On launch</span></li><li><span class="step-no">02</span><h4>Convert and bridge</h4><p>wGOOGLx → USD → native USDC<br>CCTP to HyperEVM as principal</p><span class="stage">Intended route</span></li><li><span class="step-no">03</span><h4>Proposal, then policy</h4><p>Long or flat only<br>Small fixed order cap</p><span class="stage">Policy first</span></li><li><span class="step-no">04</span><h4>Net profit to buyback</h4><p>Return to wGOOGLx<br>then repurchase under caps</p><span class="stage">Profit only</span></li></ol>
+    <p id="escrow-note" class="escrow-note">Pre-graduation buybacks remain in a fixed contract; they move to the dead address only after graduation.</p>
     <details class="trust-note"><summary>What still requires trust ＋</summary><p>Neural computation runs off-chain. Source, inputs, and outputs can be replayed. A fingerprint on chain can detect later edits; it cannot prove the step ran. Fills and funding depend on the venue and a settlement signer; contracts re-check inventory. Bridges depend on Circle. Vault rules depend on IGNIX.</p><p>An operator can pause or stop. v0.4 recovery has no extra waiting period once flat and confirmed; that is not a holder redeem right. IGNIX creator extras still accrue to an EOA.</p></details>
-    <div class="treasury-bottom"><p>The public token is a parameter test, not the product. Trading can lose principal. Caps are not a return.</p><div><span id="token-address" class="token-address" hidden></span><a id="launch-link" href="https://ignix.bot/store" target="_blank" rel="noopener noreferrer">IGNIX vaults ↗</a></div></div>
+    <div class="treasury-bottom"><p>Trading can lose principal. Caps are not a return. The official token is published with the site, not from leftover trials.</p><div><span id="token-address" class="token-address" hidden></span><a id="launch-link" href="https://github.com/fly-766/fly" target="_blank" rel="noopener noreferrer">Source ↗</a></div></div>
   </section>
-  <section class="readings"><a href="/verify.html">Independent checks <span>↗</span></a><span class="eyebrow">NOTES</span><a href="https://github.com/fly-766/fly/blob/main/VERIFICATION.md">Verification notes <span>↗</span></a><a href="https://github.com/nftechie/stonkfly" target="_blank" rel="noopener noreferrer">Stonkfly / upstream controller <span>↗</span></a></section>
+  <section class="readings"><a href="https://github.com/fly-766/fly">Source <span>↗</span></a><span class="eyebrow">NOTES</span><a href="https://github.com/fly-766/fly/blob/main/DISCLOSURE.md">Disclosure <span>↗</span></a><a href="https://github.com/nftechie/stonkfly" target="_blank" rel="noopener noreferrer">Stonkfly / upstream controller <span>↗</span></a></section>
 </main>
 <footer><a class="brand" href="/">▞ FLY</a><p>A fly. A ledger you can check.</p><span>XLAYER × HYPERLIQUID<br>PUBLIC SOURCE / 2026</span></footer>
 <script type="module" src="/dist/app.js"></script>

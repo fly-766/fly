@@ -1,94 +1,53 @@
 # Fly
 
-Fly is an experimental trading laboratory. A publicly specified fruit-fly connectome proposes; a narrow contract envelope decides what capital is allowed to do.
+A fruit fly sits at a desk and watches Bitcoin.
 
-Transfer tax collected on X Layer is intended to become Hyperliquid BTC principal. Realized profit, if any, is intended to return and repurchase the token. The connectome is a deterministic controller, not a claim of biological intelligence and not a forecast of return.
+That is the whole premise, taken seriously. Fly uses a publicly specified *Drosophila* connectome — 166,700 neurons, 25 million retained edges — as a trading controller. Market candles are encoded as light. The circuit proposes BUY, SELL, or HOLD. A contract envelope, not the fly, decides whether money may move.
 
-This repository exists so a third party can read the source, pin the addresses, and inspect the live test instance without trusting a landing page.
+Tax taken on X Layer is principal. It is meant to become Hyperliquid BTC inventory. Only realized profit is meant to come home and buy the token back. The fly does not get to invent a withdrawal.
 
-**The published IGNIX token is a parameter test. It is not the official product.**
+This repository is the explanation and the source. The public site, the production deployment, and the official token are published separately, when they exist.
 
-## Independent verification
+## How the money is supposed to move
 
-| Claim | Expected value | How to check |
-|---|---|---|
-| Chain | X Layer (`196`) | Any X Layer explorer |
-| Token | [`0xbf273d796a2eb31ac20015dcdc861b23df30eeee`](https://www.okx.com/web3/explorer/xlayer/token/0xbf273d796a2eb31ac20015dcdc861b23df30eeee) | Token page; `name()` / `symbol()` currently `122` / `1221` |
-| Vault | [`0x6248a016d7ed2dfac1560bf1e15da39b440b5531`](https://www.okx.com/web3/explorer/xlayer/address/0x6248a016d7ed2dfac1560bf1e15da39b440b5531) | `TOKEN()`, `QUOTE()`, `CREATOR()`, `DIVIDEND_BPS()` |
-| Creator | `0xD3050fbDd30bA35397E9b2FCf028978b85472B11` | Vault `CREATOR()`; IGNIX manager `tokens(token).creator` |
-| Quote asset | wGOOGLx `0xf8c5308F80E459bb53d9EbE689854d9cBb2Caa6f` | Vault `QUOTE()` |
-| Buy / sell tax | 100 bps / 100 bps | IGNIX manager `tokens(token)` |
-| Holder dividend | `0` | Vault `DIVIDEND_BPS()` |
-| Vault template | System Vault / `templateId = 0` | Creation logs; [IGNIX launch API](https://api.ignix.bot/v1/launches/0xbf273d796a2eb31ac20015dcdc861b23df30eeee) |
+Someone trades the token on X Layer. One percent on the buy, one percent on the sell, quoted in wrapped Google stock (wGOOGLx). That tax is not a holder dividend. It is claimed, converted toward native USDC, and bridged with Circle’s CCTP onto HyperEVM.
 
-Pinned files: [`config/ignix-instance.json`](config/ignix-instance.json), [`config/protocol-addresses.json`](config/protocol-addresses.json). Step-by-step notes: [`VERIFICATION.md`](VERIFICATION.md). Local page: `/verify.html`.
+There it is treated as cost basis: BTC perpetual, long or flat, no more than 1×, no more than a small fixed order. The connectome may propose. Policy may veto. A fill is confirmed as a fill, not as a signature that “should have” filled.
 
-A successful creator `claim` does not mean tax has reached HyperEVM. Vault inventory may exist before it is credited to `creatorAccrued`.
-
-## Intended route
+If the book is actually ahead of principal, that surplus — and only that surplus — is allowed to return, hop back into wGOOGLx, and repurchase under caps. Pre-graduation inventory stays in a fixed contract. After graduation it can be sent to a dead address. Principal is not profit. Profit is not a holder redeem right.
 
 ```text
-X Layer tax (wGOOGLx)
-        │
-        ▼
-  creator claim
-        │
-        ▼
-  wGOOGLx → USD → native USDC
-        │
-        ▼
-  Circle CCTP V2  (domain 37 → 19)
-        │
-        ▼
-  HyperEVM USDC → BTC perpetual principal
-        │
-        ▼
-  realized profit only → wGOOGLx buyback
+trade tax (wGOOGLx)
+    → claim
+    → convert to USDC
+    → CCTP onto HyperEVM
+    → BTC principal (long / flat)
+    → realized profit only
+    → buyback
 ```
 
-Reference transactions that demonstrate the wGOOGLx → USDC → HyperEVM path (not tax from the test token) are listed in [`config/path-demonstration.json`](config/path-demonstration.json).
+## What the fly actually is
 
-Trading constraints in source: BTC only, long or flat, ≤1× leverage, ≤100 USDC per order. Keeper profiles are unarmed (`liveEnabled: false`) until a separately reviewed deployment is configured.
+The controller is [Stonkfly](https://github.com/nftechie/stonkfly)’s MaleCNS graph, not a toy network and not a language model picking trades. Closed candles become left/right brightness. Spikes propagate. A fixed decoder emits a side. Learning, when enabled, is an engineered dopamine-like update — not a claim that the animal understands a market, and not a forecast of return.
 
-## What this is not
+Same input, same source, same policy should replay to the same record on the same machine. A hash of that record can later be anchored so a file cannot be quietly rewritten. That is not a zero-knowledge proof that the neuron step ran, and it is not a live track record.
 
-Fly is not Google, IGNIX, Circle, Hyperliquid, or Janelia. wGOOGLx is a wrapped stock token on X Layer; it is not listed equity. Replayable records and on-chain fingerprints are not zero-knowledge proofs of correct computation. A signed settlement is not a guarantee of venue fill quality. Nothing here is investment advice.
+## What this source contains
 
-Full caveats: [`DISCLOSURE.md`](DISCLOSURE.md), [`docs/TRANSPARENCY.md`](docs/TRANSPARENCY.md).
-
-## Repository
-
-| Path | Contents |
+| Path | Role |
 |---|---|
-| `contracts/` | Tax conversion, CCTP ingress, trading account, recovery, buyback |
-| `flyterm/` | Connectome runtime, records, unarmed keeper planning |
-| `config/` | Public addresses and the pinned test instance |
-| `web/` | Local laboratory and verification page |
-| `vendor/stonkfly/` | Upstream MaleCNS controller (MIT), without the large data files |
+| `contracts/` | Conversion, bridge ingress, trading account, recovery, buyback |
+| `flyterm/` | Connectome runtime, journals, unarmed operator planning |
+| `web/` | Laboratory interface |
+| `vendor/stonkfly/` | Upstream controller (MIT), without the bulk data arrays |
+| `DISCLOSURE.md` | Affiliations, risk, and what is not being claimed |
 
-Connectome arrays are downloaded separately and checked against upstream locks. They are not stored in this tree.
+Keys never live in this tree. Generated keepers stay unarmed until a deployment is configured elsewhere.
 
-## Local laboratory
+## What Fly is not
 
-```sh
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-npm ci --ignore-scripts
-npm run build
-python3 scripts/setup_contract_deps.py
-python3 server.py --port 8798
-```
-
-Open `http://127.0.0.1:8798`. The HTTP server binds to loopback and exposes no signing or broadcast endpoints. `POST /api/exchange` is rejected.
-
-```sh
-forge test --summary
-python3 -m unittest discover -s tests -v
-npm test
-```
-
-X Layer fork tests are opt-in and read-only: `RUN_XLAYER_FORK=true forge test --match-path contracts/test/XLayerStableFork.t.sol -vv`.
+Not Google. Not IGNIX. Not Circle. Not Hyperliquid. Not Janelia. wGOOGLx is a wrapped stock token on X Layer; it is not listed GOOGL. Caps limit loss; they do not produce return. Nothing here is an offer to buy or sell a security.
 
 ## License
 
-Project source is MIT. `vendor/stonkfly` retains its MIT license. MaleCNS v1.0 data remains under its upstream terms. See [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
+MIT for project source. Stonkfly remains MIT. MaleCNS data stays under its upstream terms. See [`docs/PROVENANCE.md`](docs/PROVENANCE.md).

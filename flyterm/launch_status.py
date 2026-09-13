@@ -1,4 +1,4 @@
-"""Read-only IGNIX test-instance status. Public RPC only; no keys or writes."""
+"""Read-only published-instance status. Public RPC only; no keys or writes."""
 import json,urllib.request
 from pathlib import Path
 from eth_abi import encode,decode
@@ -70,11 +70,9 @@ def live_status(rpc=None,instance=None):
     }
 def public_status():
     cfg=load_instance()
+    if not cfg.get("published") or not cfg.get("token"):
+        return {"ok":False,"live":False,"published":False,"officialProduct":False,"role":"unpublished"}
     try:
-        live=live_status(instance=cfg);live["live"]=True;return live
+        live=live_status(instance=cfg);live["live"]=True;live["published"]=True;return live
     except Exception:
-        return {"ok":False,"live":False,"officialProduct":False,"role":cfg["role"],"token":cfg["token"],"creator":cfg["creator"],
-                "vault":cfg["vault"],"quote":cfg["quote"],"templateId":cfg["templateId"],"taxBuyBps":cfg["taxBuyBps"],
-                "taxSellBps":cfg["taxSellBps"],"dividendBps":cfg["dividendBps"],"createTx":cfg["createTx"],"claimTx":cfg["claimTx"],
-                "syncTx":cfg["syncTx"],"notYetLive":cfg["notYetLive"],"hyperCanary":cfg["hyperCanary"],
-                "error":"live_rpc_unavailable","links":{"token":cfg["explorerToken"]+cfg["token"],"claimTx":cfg["explorerTx"]+cfg["claimTx"],"createTx":cfg["explorerTx"]+cfg["createTx"],"ignix":cfg["ignixApi"]+cfg["token"]}}
+        return {"ok":False,"live":False,"published":True,"officialProduct":bool(cfg.get("officialProduct")),"error":"live_rpc_unavailable"}
