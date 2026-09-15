@@ -107,7 +107,7 @@ class Journal:
             b = row["body"]
             if row["seq"]!=i or b.get("sequence")!=i or b.get("runId")!=manifest["runId"]: raise ValueError("Sequence mismatch")
             if row["previous"]!=previous or row["root"]!=digest({"previous":previous,"body":b}): raise ValueError("History changed")
-            for key in ("input", "checkpoint"):
+            for key in ("input", "checkpoint", "telemetry"):
                 a=b.get(key)
                 if a and file_digest(self.artifact_path(a["name"]))!=a["sha256"]: raise ValueError("Artifact changed")
             previous=row["root"]

@@ -1,9 +1,8 @@
-# Provenance
+# Provenance and licenses
 
-- Laboratory UI, CSS, read-only market adapter, run records, protocol contracts, and operator planning code in this repository are Fly source under the root MIT license.
-- Pixel scene assets (`web/assets/desk.jpg`, `web/assets/flydesk-pixel.glb`) are project art. The illustration is not a live price feed and not a neural output.
-- Three.js 0.186.0 is an MIT dependency. The 3D stage loads on demand.
-- `vendor/stonkfly` is adapted from [nftechie/stonkfly](https://github.com/nftechie/stonkfly) (MIT). Fly uses the full retained MaleCNS controller and C++ kernel; it does not substitute a smaller network.
-- MaleCNS v1.0 data remains under its upstream terms (including CC BY). Arrays are downloaded separately and checked against upstream file locks. They are not shipped in this tree.
-- The movement-light sensory encoder is project-designed. It is not an upstream claim that the fly “sees” a market.
-- Fixed on-chain ABIs follow public IGNIX, Circle CCTP, and Hyperliquid documentation. Those deployments can change; refresh before relying on a new release.
+- FLY sensory encoding, record handling, technical documentation and control contracts use the root MIT license.
+- The retained connectome controller and memory kernel are adapted from [nftechie/stonkfly](https://github.com/nftechie/stonkfly), with its MIT license preserved in vendor/stonkfly.
+- MaleCNS v1.0 anatomical data is obtained separately and remains subject to its upstream attribution and data-license terms. Source-side locks identify the declared arrays; this repository does not redistribute the dataset.
+- Dopamine-associated plasticity is an engineered adaptation inspired by the literature, including [Huang et al. (2024)](https://doi.org/10.1038/s41586-024-07819-w). It is not a claim to reproduce that study's biological validation in this retained graph.
+- OpenZeppelin dependency sources and license are included for contract inspection and compilation. Flap and Hyperliquid interfaces reflect public protocol interfaces; external protocol operation remains a separate dependency.
+- The architecture figure is an original schematic of this project. It does not reproduce another project's content, anatomy or experimental results.

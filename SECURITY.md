@@ -1,11 +1,5 @@
-# Security
+# Security scope
 
-This tree must not contain private keys, seed phrases, keystore passwords, RPC credentials, or operator journals.
+The public tree is for inspecting neural computation, BSC control invariants and read-only replay. Do not post secrets, wallet files, provider credentials or operational records in issues.
 
-Keeper and model signers, when used, read key material from environment variables (`FLYTERM_KEEPER_KEY_FILE`, `FLYTERM_MODEL_KEY_FILE`, `FLYTERM_SETTLEMENT_KEY_FILE`) pointing at files outside the repository. RPC endpoints are likewise supplied through environment variables.
-
-Generated keeper profiles set `liveEnabled` to `false`. Arming a live signer is a separate, explicit operation and is not performed by cloning this repository.
-
-The HTTP viewer binds to loopback and does not expose exchange, approve, or broadcast routes.
-
-If a secret is committed, rotate it and report the commit privately. Do not paste keys into issues or pull requests.
+Reports should identify the affected source, the violated invariant, and a reproducible explanation using synthetic inputs. Distinguish contract-accounting defects, bridge/operator assumptions and recording-integrity failures. A successful local test is not a production-security certification.

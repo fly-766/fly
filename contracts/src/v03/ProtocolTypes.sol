@@ -25,12 +25,7 @@ interface IV2Pair {
 interface IV2Router {
     function swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256,uint256,address[] calldata,address,uint256) external;
 }
-interface IIgnixManager {
-    struct Curve {address creator;uint16 buyFeeBps;uint16 sellFeeBps;uint16 taxBuyBps;uint16 taxSellBps;address quote;uint16 snipeStartBps;uint16 snipeMins;uint64 createdAt;uint128 vQuote;uint128 vToken;uint128 sold;uint128 collected;uint128 sellable;uint128 reserve;bytes32 poolId;}
-    function vaultOf(address) external view returns(address);function pairOf(address) external view returns(address);
-    function tokens(address) external view returns(Curve memory);
-    function buy(address,uint256,uint256) external payable;
-}
+
 interface ICoreWriter03 {function sendRawAction(bytes calldata) external;}
 interface ICoreDeposit03 {function depositFor(address,uint256,uint32) external;}
 interface ICoreRead03 {

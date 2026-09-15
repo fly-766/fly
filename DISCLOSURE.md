@@ -1,17 +1,9 @@
-# Disclosure
+# Scope and evidence limits
 
-Fly is an independent experiment. It is not a product of Google, IGNIX, Circle, Hyperliquid, Coinbase, Janelia, or the authors of Stonkfly. Mention of those names is descriptive: quote assets, launch infrastructure, bridges, venues, and the upstream connectome.
+This is an experimental BSC-oriented controller research release. The retained connectome is a computational model, not a complete living fly, consciousness, financial expertise or proof of profitable learning.
 
-wGOOGLx is a wrapped representation of Google stock on X Layer. Holding it is not the same as holding listed GOOGL equity.
+The controller's market encoder, readout, plasticity feedback and financial admissibility rules are engineered choices. A native 10x setting with a 50% sizing reserve implies an approximately 5x gross target before lot and price rounding; it is not a liquidation guarantee. A -40% position ROI stop is an execution trigger, not a guaranteed realized-loss ceiling.
 
-The MaleCNS graph is a public neuroscience artifact used here as a trading controller. Encoding market data as brightness, then decoding a BUY/SELL/HOLD bit, is an engineering choice. It is not evidence that a fly understands markets, and it is not a validated edge.
+The creator wallet and keeper mediate cross-chain transport. Relay and venue availability, market data, custody, settlement signatures and publication completeness are explicit dependencies. Private keys are not part of this repository; their absence from the repository does not remove operator authority.
 
-Local replay proves that the same source, the same input, and the same policy produce the same record on the same machine. It does not prove profitability, cross-compiler identity, or that unpublished proposals were never dropped.
-
-On-chain fingerprints can show that a published record was altered after the fact. They cannot, by themselves, prove that the neural step ran, or that a settlement signature describes a venue fill correctly. The settlement signer remains a trust boundary. Contracts re-check balances, positions, and caps; they do not make the signer unnecessary.
-
-Circle attests CCTP messages. Hyperliquid executes perpetuals. IGNIX hosts the token vault. Those systems can pause, upgrade, or freeze assets under their own rules.
-
-Trading can lose the principal. Position caps and vetoes are loss-limiting rules, not a return guarantee.
-
-Secrets, operator key files, RPC credentials, and private research notes are excluded from this tree. Report a secret in a commit through GitHub’s private vulnerability reporting, not a public issue.
+Reproducibility means recomputation of a specified archived recording under its declared source and environment. A signature, animation or local hash chain alone does not prove correct computation. No live account, trial transaction or operational performance is presented as evidence in this release.

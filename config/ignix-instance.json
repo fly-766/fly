@@ -1,7 +1,0 @@
-{
-  "schema": "fly-instance/v1",
-  "published": false,
-  "officialProduct": false,
-  "role": "unpublished",
-  "note": "Production identity is configured at deployment; internal trials are not a public instance."
-}
