@@ -1,6 +1,8 @@
 <div align="center">
 
-# FLY · BSC
+<img src="docs/figures/flyingtrade-avatar.png" width="104" height="104" alt="flyingtrade avatar">
+
+# flyingtrade · BSC
 ### Connectome-driven control with reproducible neural dynamics
 
 **Spiking networks · Anatomically grounded connectivity · Explicit capital invariants**
@@ -9,13 +11,13 @@
 
 </div>
 
-![FLY: sensory encoding, retained connectome dynamics, constrained long-flat-short actions, and independently checkable records.](docs/figures/architecture.svg)
+![flyingtrade: sensory encoding, retained connectome dynamics, constrained long-flat-short actions, and independently checkable records.](docs/figures/architecture.svg)
 
 *Figure 1. Computation, action admissibility and evidence are separate layers. The connectivity illustration is schematic; it is not an anatomical reconstruction or a performance plot.*
 
 ## Abstract
 
-FLY studies a control interface between a retained *Drosophila* male central nervous system connectome and an explicitly constrained financial state machine. The model contains **166,700 neurons and 25,582,938 directed connections**. Completed market observations become visual stimuli; spiking dynamics propagate through the retained graph; fixed descending-neuron readouts propose an action. An engineered plasticity rule modifies selected existing connections in response to changes in settled accounting.
+flyingtrade studies a control interface between a retained *Drosophila* male central nervous system connectome and an explicitly constrained financial state machine. The model contains **166,700 neurons and 25,582,938 directed connections**. Completed market observations become visual stimuli; spiking dynamics propagate through the retained graph; fixed descending-neuron readouts propose an action. An engineered plasticity rule modifies selected existing connections in response to changes in settled accounting.
 
 The BSC architecture separates **neural computation**, **long–flat–short admissibility**, **capital accounting**, and **record verification**. BNB-denominated creator-tax receipts are the conceptual capital source; Hyperliquid is the execution venue. Neither market meaning, profitable learning nor biological equivalence follows merely from using a connectome.
 
@@ -107,4 +109,4 @@ Obtain the recording bundle and its reference root separately. Install the bundl
 
 This repository contains technical methods, neural source, BSC-route control contracts and a read-only recording verifier. It contains no operational wallet configuration, deployed project addresses, transaction history, private credentials or server instructions. The source snapshot is a research release; each recording carries the exact archived runtime required for that recording's replay.
 
-FLY is not presented as a peer-reviewed paper, a biological validation study or a demonstrated profitable strategy. An empirical evaluation must compare adaptive versus frozen weights, shuffled feedback, cash and passive exposure on held-out observations, including execution costs. See [Methods and evaluation](docs/METHODS.md) and [Disclosure](DISCLOSURE.md).
+flyingtrade is not presented as a peer-reviewed paper, a biological validation study or a demonstrated profitable strategy. An empirical evaluation must compare adaptive versus frozen weights, shuffled feedback, cash and passive exposure on held-out observations, including execution costs. See [Methods and evaluation](docs/METHODS.md) and [Disclosure](DISCLOSURE.md).
