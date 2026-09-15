@@ -33,3 +33,9 @@ Evaluate the adaptive model against frozen weights, feedback-shuffled controls, 
 ## Verification model
 
 Separate five statements: input identity, source identity, deterministic replay, external commitment consistency, and financial execution. Only the evidence appropriate to each statement can support it. The [recording verifier](../scripts/replay_recording.py) reports the exact prefix it recomputed; no stronger claim is inferred.
+
+## Production scheduling and observation time
+
+The [BSC scheduler](../scripts/bsc_live_scheduler.py) completes pending transactions and account settlement before attempting another operation. Once the account is settled and funded, it prioritizes a valid recorded neural commitment over starting another tax or transport batch. A new observation is evaluated at most once per scheduling minute on this priority path; HOLD and ineligible signals return control to transport processing.
+
+Commit construction reads a fresh HyperEVM block after neural observation. The block captured before market retrieval may predate the input timestamp, so using that older snapshot can delay a valid commitment. Observation timestamps, the original expiry window, nonce checks, order preview, and position risk controls remain unchanged. The adapter does not modify the neural controller or its frozen source manifest. [Scheduler regression checks](../scripts/test_bsc_live_scheduler.py).
