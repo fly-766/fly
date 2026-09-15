@@ -31,25 +31,31 @@ Neural time is distinct from wall-clock runtime. The reserve constrains target e
 
 Let $p_t$ be the close of a completed candle and $\sigma_t$ the population standard deviation of the latest 60 log returns, floored at $10^{-6}$. The movement encoder computes
 
-$$z_t=\frac{\log(p_t/p_{t-3})}{\sqrt{3}\,\sigma_t}.$$
+```math
+z_t=\frac{\log(p_t/p_{t-3})}{\sqrt{3}\,\sigma_t}.
+```
 
 For $|z_t|<0.05$, the input is neutral. Otherwise, bounded luminance proportional to $\min(|z_t|,1)$ is applied to one half of a $320\times180$ RGB frame. This transducer is engineered: the graph is not assumed to possess an intrinsic representation of asset prices. See [sensory.py](flyterm/sensory.py).
 
 ## 2 · Fixed neural readout and plastic memory
 
-Let $\bar\nu_R$ and $\bar\nu_L$ denote mean DNp20 firing rates and $g_t$ the DNpe017 gate. The readout is
+Let $\bar{\nu}_R$ and $\bar{\nu}_L$ denote mean DNp20 firing rates and $g_t$ the DNpe017 gate. The readout is
 
-$$\delta_t=\bar\nu_{R,t}-\bar\nu_{L,t},\qquad
-\widehat a_t=\begin{cases}
-\mathrm{BUY},&g_t>0\land\delta_t\ge2\,\mathrm{Hz},\
-\mathrm{SELL},&g_t>0\land\delta_t\le-2\,\mathrm{Hz},\
+```math
+\delta_t=\bar{\nu}_{R,t}-\bar{\nu}_{L,t},\qquad
+\widehat{a}_t=\begin{cases}
+\mathrm{BUY},&g_t>0\land\delta_t\ge2\,\mathrm{Hz},\\
+\mathrm{SELL},&g_t>0\land\delta_t\le-2\,\mathrm{Hz},\\
 \mathrm{HOLD},&\text{otherwise}.
-\end{cases}$$
+\end{cases}
+```
 
 Plasticity acts on selected reconstructed KC-to-MBON07/11 edges, rather than inventing new anatomical connections. For a selected edge, the implementation evolves an intermediate state $u_e$ and efficacy state $w_e$:
 
-$$\dot u_e=-u_e/\tau_u+\eta\left(k_e\widetilde d_e-d_e\widetilde k_e\right),\quad
-\dot w_e=(u_e-w_e)/\tau_w,\quad W_e=W_e^{(0)}(1+w_e).$$
+```math
+\dot{u}_e=-u_e/\tau_u+\eta\left(k_e\widetilde{d}_e-d_e\widetilde{k}_e\right),\quad
+\dot{w}_e=(u_e-w_e)/\tau_w,\quad W_e=W_e^{(0)}(1+w_e).
+```
 
 The multiplicative efficacy range is $[0.1,2.0]$, with $\tau_u=1800$ s and $\tau_w=0.05$ s in simulated time. Compartment-associated dopamine and filtered activity traces define the update. This is an experimental model assumption, not evidence that biological reward circuits optimize financial returns. [Controller](vendor/stonkfly/stonkfly/neural/controller.py) · [Plasticity rule](vendor/stonkfly/stonkfly/neural/rule.py).
 
@@ -57,14 +63,18 @@ The multiplicative efficacy range is $[0.1,2.0]$, with $\tau_u=1800$ s and $\tau
 
 The network proposes direction; it cannot choose a recipient, a leverage multiplier or withdrawal authority. With equity $E_t$, native leverage $L=10$ and reserve fraction $r=0.5$,
 
-$$N_t^*=L(1-r)\max(E_t,0)=5\max(E_t,0),\qquad
-\Delta N_t=\max(0,N_t^*-N_t^{\mathrm{existing}}).$$
+```math
+N_t^*=L(1-r)\max(E_t,0)=5\max(E_t,0),\qquad
+\Delta N_t=\max(0,N_t^*-N_t^{\mathrm{existing}}).
+```
 
 A same-direction proposal may add only the remaining gap to this target. Size is rounded down to the venue lot step using the more conservative of the oracle and limit prices. There is **no fixed monetary order ceiling**. An opposite-direction proposal reduces existing exposure first; crossing through zero requires completed settlement and a new admissible commitment.
 
 A position-level stop is triggered when directional unrealized loss $\ell_t$ reaches 40% of the leverage-implied initial margin:
 
-$$\ell_t\ge0.40\,N_{\mathrm{entry}}/10.$$
+```math
+\ell_t\ge0.40\,N_{\mathrm{entry}}/10.
+```
 
 This is a trigger, not a guaranteed maximum loss. [Exact fixed-point sizing](contracts/src/v05/PositionMathV05.sol) · [BSC-route account](contracts/src/bsc/TradingAccountBsc.sol).
 
@@ -72,11 +82,15 @@ This is a trigger, not a guaranteed maximum loss. [Exact fixed-point sizing](con
 
 The BSC route is
 
-$$\text{BNB tax receipt}\rightarrow\text{bridge settlement}\rightarrow\text{received USDC principal}\rightarrow\text{constrained account}.$$
+```math
+\text{BNB tax receipt}\rightarrow\text{bridge settlement}\rightarrow\text{received USDC principal}\rightarrow\text{constrained account}.
+```
 
 Principal is credited only against an actual USDC transfer. Profit and principal recovery use segregated exits. For settled trading net $N_t$, previously allocated profit $D_t$, booked operating cost $O_t$, current equity $E_t$ and retained basis $B_t$,
 
-$$P_t=\max\left(0,\min(N_t-D_t-O_t,\ E_t-B_t-O_t)\right),$$
+```math
+P_t=\max\left(0,\min(N_t-D_t-O_t,\ E_t-B_t-O_t)\right),
+```
 
 subject to a flat, settled, position-consistent account. Ineligible states yield zero. Returned profit may fund BNB buybacks; curve purchases remain in escrow until graduation, after which burn delivery is measured by actual token balances.
 
@@ -86,7 +100,9 @@ The bridge boundary is **operator-mediated**. The creator wallet temporarily hol
 
 Each observation binds its input, neural output, preceding and succeeding state fingerprints, sampled telemetry and run identity. With canonical JSON encoding,
 
-$$H_t=\operatorname{SHA256}\left(\operatorname{canonicalJSON}\{\mathrm{previous}:H_{t-1},\mathrm{body}:R_t\}\right).$$
+```math
+H_t=\mathrm{SHA256}\left(\mathrm{canonicalJSON}\{\mathrm{previous}:H_{t-1},\mathrm{body}:R_t\}\right).
+```
 
 The independent verifier checks an externally referenced record root **before importing archived source**. It then checks source and artifact hashes, model identity, sensory reconstruction, feedback, every neural output, the complete state fingerprint and sampled time bins.
 
